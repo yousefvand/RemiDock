@@ -1,0 +1,15 @@
+-rootPath
+/data/Code/RemiDock
+-cmake-output
+-output-file
+/data/Code/RemiDock/build/.qt/qml_imports/RemiDock_conf.cmake
+-importPath
+/data/Code/RemiDock/build
+-importPath
+/data/Code/RemiDock/build/RemiDock
+-importPath
+/usr/lib/qt6/qml
+-qrcFiles
+/data/Code/RemiDock/build/.qt/rcc/qmake_RemiDock.qrc
+/data/Code/RemiDock/build/.qt/rcc/RemiDock_raw_qml_0.qrc
+/data/Code/RemiDock/build/.qt/rcc/RemiDock_raw_res_0.qrc

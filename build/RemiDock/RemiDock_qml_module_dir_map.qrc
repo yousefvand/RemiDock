@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/qt/qml/RemiDock">/data/Code/RemiDock/build/RemiDock</file>
+
+  </qresource>
+</RCC>

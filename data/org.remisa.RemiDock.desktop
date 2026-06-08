@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=RemiDock
+Comment=Custom Qt/QML dock for KDE Plasma
+Exec=RemiDock
+Icon=preferences-desktop-launch-feedback
+Terminal=false
+Categories=Utility;
+StartupNotify=false

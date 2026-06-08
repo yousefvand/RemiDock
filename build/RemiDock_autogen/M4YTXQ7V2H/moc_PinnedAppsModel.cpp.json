@@ -1,0 +1,303 @@
+{
+    "classes": [
+        {
+            "className": "PinnedAppsModel",
+            "lineNumber": 22,
+            "methods": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 1,
+                    "lineNumber": 47,
+                    "name": "launch",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "desktopFile",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 2,
+                    "lineNumber": 49,
+                    "name": "addDesktopFile",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "executablePath",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "iconPath",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 3,
+                    "lineNumber": 50,
+                    "name": "addCustomApplication",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "index": 4,
+                    "lineNumber": 51,
+                    "name": "addSeparator",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 5,
+                    "lineNumber": 53,
+                    "name": "removeItem",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 6,
+                    "lineNumber": 54,
+                    "name": "removeById",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "from",
+                            "type": "int"
+                        },
+                        {
+                            "name": "to",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 7,
+                    "lineNumber": 56,
+                    "name": "moveItem",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 8,
+                    "lineNumber": 57,
+                    "name": "moveUp",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 9,
+                    "lineNumber": 58,
+                    "name": "moveDown",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 10,
+                    "lineNumber": 59,
+                    "name": "moveToTop",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 11,
+                    "lineNumber": 60,
+                    "name": "moveToBottom",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "iconSize",
+                            "type": "int"
+                        },
+                        {
+                            "name": "screenWidth",
+                            "type": "int"
+                        },
+                        {
+                            "name": "screenHeight",
+                            "type": "int"
+                        },
+                        {
+                            "name": "edge",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 12,
+                    "isConst": true,
+                    "lineNumber": 62,
+                    "name": "canFitAdditionalApp",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "iconSize",
+                            "type": "int"
+                        },
+                        {
+                            "name": "screenWidth",
+                            "type": "int"
+                        },
+                        {
+                            "name": "screenHeight",
+                            "type": "int"
+                        },
+                        {
+                            "name": "edge",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 13,
+                    "isConst": true,
+                    "lineNumber": 63,
+                    "name": "canFitAdditionalSeparator",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "itemType",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "iconSize",
+                            "type": "int"
+                        },
+                        {
+                            "name": "edge",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 14,
+                    "isConst": true,
+                    "lineNumber": 64,
+                    "name": "estimatedDockExtentWithAdditional",
+                    "returnType": "int"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "screenWidth",
+                            "type": "int"
+                        },
+                        {
+                            "name": "screenHeight",
+                            "type": "int"
+                        },
+                        {
+                            "name": "edge",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 15,
+                    "isConst": true,
+                    "lineNumber": 65,
+                    "name": "maximumDockExtent",
+                    "returnType": "int"
+                },
+                {
+                    "access": "public",
+                    "index": 16,
+                    "lineNumber": 67,
+                    "name": "resetDefaults",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 17,
+                    "lineNumber": 68,
+                    "name": "refreshRunningState",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "lineNumber": 25,
+                    "name": "itemCount",
+                    "notify": "itemCountChanged",
+                    "override": false,
+                    "read": "itemCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                }
+            ],
+            "qualifiedClassName": "PinnedAppsModel",
+            "signals": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "lineNumber": 71,
+                    "name": "itemCountChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QAbstractListModel"
+                }
+            ]
+        }
+    ],
+    "inputFile": "PinnedAppsModel.h",
+    "outputRevision": 69
+}

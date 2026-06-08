@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="/qt/qml/RemiDock/">
+    <file alias="qml/Main.qml">/data/Code/RemiDock/qml/Main.qml</file>
+    <file alias="qml/dock/Dock.qml">/data/Code/RemiDock/qml/dock/Dock.qml</file>
+    <file alias="qml/dock/DockItem.qml">/data/Code/RemiDock/qml/dock/DockItem.qml</file>
+    <file alias="qml/dock/DragHandle.qml">/data/Code/RemiDock/qml/dock/DragHandle.qml</file>
+    <file alias="qml/dock/MusicHandle.qml">/data/Code/RemiDock/qml/dock/MusicHandle.qml</file>
+    <file alias="qml/dock/SettingsHandle.qml">/data/Code/RemiDock/qml/dock/SettingsHandle.qml</file>
+    <file alias="qml/settings/SettingsWindow.qml">/data/Code/RemiDock/qml/settings/SettingsWindow.qml</file>
+    <file alias="qml/hoverAnimations/SimpleHover.qml">/data/Code/RemiDock/qml/hoverAnimations/SimpleHover.qml</file>
+    <file alias="qml/hoverAnimations/ZoomHover.qml">/data/Code/RemiDock/qml/hoverAnimations/ZoomHover.qml</file>
+    <file alias="qml/hoverAnimations/FireHover.qml">/data/Code/RemiDock/qml/hoverAnimations/FireHover.qml</file>
+    <file alias="qml/hoverAnimations/FadeHover.qml">/data/Code/RemiDock/qml/hoverAnimations/FadeHover.qml</file>
+  </qresource>
+</RCC>
+

@@ -1,0 +1,3 @@
+[<SLASH>data<SLASH>Code<SLASH>RemiDock]
+importPaths="/data/Code/RemiDock/build:/data/Code/RemiDock/build/RemiDock:/usr/lib/qt6/qml"
+resourceFiles="/data/Code/RemiDock/build/.qt/rcc/qmake_RemiDock.qrc:/data/Code/RemiDock/build/.qt/rcc/RemiDock_raw_qml_0.qrc:/data/Code/RemiDock/build/.qt/rcc/RemiDock_raw_res_0.qrc"

@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/data/Code/RemiDock/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

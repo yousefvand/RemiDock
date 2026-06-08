@@ -1,0 +1,16 @@
+module RemiDock
+typeinfo RemiDock.qmltypes
+prefer :/qt/qml/RemiDock/
+Main 1.0 qml/Main.qml
+Dock 1.0 qml/dock/Dock.qml
+DockItem 1.0 qml/dock/DockItem.qml
+DragHandle 1.0 qml/dock/DragHandle.qml
+MusicHandle 1.0 qml/dock/MusicHandle.qml
+SettingsHandle 1.0 qml/dock/SettingsHandle.qml
+SettingsWindow 1.0 qml/settings/SettingsWindow.qml
+SimpleHover 1.0 qml/hoverAnimations/SimpleHover.qml
+ZoomHover 1.0 qml/hoverAnimations/ZoomHover.qml
+FireHover 1.0 qml/hoverAnimations/FireHover.qml
+FadeHover 1.0 qml/hoverAnimations/FadeHover.qml
+depends QtQuick
+

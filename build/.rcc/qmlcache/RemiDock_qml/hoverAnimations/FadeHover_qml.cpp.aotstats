@@ -1,0 +1,31 @@
+{
+    "formatRevision": 1,
+    "modules": [
+        {
+            "moduleFiles": [
+                {
+                    "entries": [
+                        {
+                            "codegenResult": 0,
+                            "column": 12,
+                            "durationMicroseconds": 0,
+                            "functionName": "width",
+                            "line": 14,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 13,
+                            "durationMicroseconds": 0,
+                            "functionName": "height",
+                            "line": 15,
+                            "message": ""
+                        }
+                    ],
+                    "filePath": "/data/Code/RemiDock/qml/hoverAnimations/FadeHover.qml"
+                }
+            ],
+            "moduleId": "RemiDock(RemiDock)"
+        }
+    ]
+}

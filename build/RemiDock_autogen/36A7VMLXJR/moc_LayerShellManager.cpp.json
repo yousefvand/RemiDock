@@ -1,0 +1,27 @@
+{
+    "classes": [
+        {
+            "className": "LayerShellManager",
+            "lineNumber": 8,
+            "methods": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "lineNumber": 16,
+                    "name": "apply",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "qualifiedClassName": "LayerShellManager",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "LayerShellManager.h",
+    "outputRevision": 69
+}

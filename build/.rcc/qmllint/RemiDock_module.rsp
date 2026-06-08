@@ -1,0 +1,16 @@
+-I
+/data/Code/RemiDock/build
+-I
+/data/Code/RemiDock/build/RemiDock
+-I
+/data/Code/RemiDock/build
+-I
+/usr/lib/qt6/qml
+--resource
+/data/Code/RemiDock/build/.qt/rcc/qmake_RemiDock.qrc
+--resource
+/data/Code/RemiDock/build/.qt/rcc/RemiDock_raw_qml_0.qrc
+--resource
+/data/Code/RemiDock/build/.qt/rcc/RemiDock_raw_res_0.qrc
+--module
+RemiDock

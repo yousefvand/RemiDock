@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="/qt/qml/RemiDock/">
+    <file alias="assets/animations/fire.webp">/data/Code/RemiDock/assets/animations/fire.webp</file>
+    <file alias="assets/animations/fire_source_apng.png">/data/Code/RemiDock/assets/animations/fire_source_apng.png</file>
+    <file alias="assets/animations/fire.gif">/data/Code/RemiDock/assets/animations/fire.gif</file>
+    <file alias="assets/animations/fire_spritesheet.png">/data/Code/RemiDock/assets/animations/fire_spritesheet.png</file>
+    <file alias="assets/animations/fire_user_apng.png">/data/Code/RemiDock/assets/animations/fire_user_apng.png</file>
+    <file alias="assets/animations/fire_attached_apng.png">/data/Code/RemiDock/assets/animations/fire_attached_apng.png</file>
+  </qresource>
+</RCC>
+
