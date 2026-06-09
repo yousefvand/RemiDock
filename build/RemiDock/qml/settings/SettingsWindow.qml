@@ -6,9 +6,9 @@ import QtQuick.Dialogs
 Window {
     id: settingsWindow
 
-    width: 820
+    width: 900
     height: 610
-    minimumWidth: 760
+    minimumWidth: 880
     minimumHeight: 560
 
     visible: false
@@ -18,6 +18,46 @@ Window {
     flags: Qt.Window | Qt.WindowStaysOnTopHint
 
     property int pinnedCount: pinnedAppsModel.itemCount
+    property string reorderTargetId: ""
+    property string lastReorderDirection: ""
+
+    function clearReorderTarget() {
+        reorderTargetId = ""
+        lastReorderDirection = ""
+    }
+
+    function reorderIdForClick(clickedId, clickedIndex, direction) {
+        var targetIndex = reorderTargetId === "" ? -1 : pinnedAppsModel.indexOfItem(reorderTargetId)
+
+        if (targetIndex >= 0 && clickedId !== reorderTargetId) {
+            if (direction === "up" && clickedIndex === targetIndex + 1)
+                return reorderTargetId
+
+            if (direction === "down" && clickedIndex === targetIndex - 1)
+                return reorderTargetId
+        }
+
+        reorderTargetId = clickedId
+        return clickedId
+    }
+
+    function movePinnedFromButton(clickedId, clickedIndex, direction) {
+        var targetId = reorderIdForClick(clickedId, clickedIndex, direction)
+
+        if (direction === "top") {
+            pinnedAppsModel.moveToTop(clickedId)
+            reorderTargetId = clickedId
+        } else if (direction === "bottom") {
+            pinnedAppsModel.moveToBottom(clickedId)
+            reorderTargetId = clickedId
+        } else if (direction === "up") {
+            pinnedAppsModel.moveUp(targetId)
+        } else if (direction === "down") {
+            pinnedAppsModel.moveDown(targetId)
+        }
+
+        lastReorderDirection = direction
+    }
     property string customIconPath: ""
 
     property bool canAddApp: pinnedCount >= 0 && pinnedAppsModel.canFitAdditionalApp(
@@ -58,6 +98,13 @@ Window {
                     font.bold: true
                     color: "white"
                     Layout.fillWidth: true
+                }
+
+                Button {
+                    text: "Exit"
+                    Layout.preferredWidth: 90
+                    Layout.preferredHeight: 30
+                    onClicked: Qt.quit()
                 }
 
                 Button {
@@ -169,7 +216,7 @@ Window {
                     title: "Pinned dock items"
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.preferredWidth: 505
+                    Layout.preferredWidth: 560
 
                     ColumnLayout {
                         anchors.fill: parent
@@ -242,12 +289,12 @@ Window {
                                         }
 
                                         Label { text: row.itemType === "separator" ? "Separator" : row.name; color: row.itemType === "separator" ? "#dddddd" : "white"; Layout.fillWidth: true; elide: Text.ElideRight }
-                                        Label { visible: row.itemType === "app"; text: row.desktopFile; color: "#777777"; font.pixelSize: 9; Layout.preferredWidth: 95; elide: Text.ElideRight }
-                                        Button { text: "Top"; Layout.preferredWidth: 48; Layout.preferredHeight: 24; enabled: row.index > 0; onClicked: pinnedAppsModel.moveToTop(row.itemId) }
-                                        Button { text: "↑"; Layout.preferredWidth: 32; Layout.preferredHeight: 24; enabled: row.index > 0; onClicked: pinnedAppsModel.moveUp(row.itemId) }
-                                        Button { text: "↓"; Layout.preferredWidth: 32; Layout.preferredHeight: 24; enabled: row.index < pinnedAppsModel.rowCount() - 1; onClicked: pinnedAppsModel.moveDown(row.itemId) }
-                                        Button { text: "Bottom"; Layout.preferredWidth: 66; Layout.preferredHeight: 24; enabled: row.index < pinnedAppsModel.rowCount() - 1; onClicked: pinnedAppsModel.moveToBottom(row.itemId) }
-                                        Button { text: "Remove"; Layout.preferredWidth: 72; Layout.preferredHeight: 24; onClicked: pinnedAppsModel.removeById(row.itemId) }
+                                        Label { visible: row.itemType === "app"; text: row.desktopFile; color: "#777777"; font.pixelSize: 9; Layout.preferredWidth: 80; elide: Text.ElideRight }
+                                        Button { text: "Top"; Layout.preferredWidth: 48; Layout.minimumWidth: 48; Layout.preferredHeight: 24; enabled: row.index > 0; onClicked: settingsWindow.movePinnedFromButton(row.itemId, row.index, "top") }
+                                        Button { text: "↑"; Layout.preferredWidth: 34; Layout.minimumWidth: 34; Layout.preferredHeight: 24; enabled: row.index > 0; onClicked: settingsWindow.movePinnedFromButton(row.itemId, row.index, "up") }
+                                        Button { text: "↓"; Layout.preferredWidth: 34; Layout.minimumWidth: 34; Layout.preferredHeight: 24; enabled: row.index < pinnedAppsModel.rowCount() - 1; onClicked: settingsWindow.movePinnedFromButton(row.itemId, row.index, "down") }
+                                        Button { text: "Bottom"; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.preferredHeight: 24; enabled: row.index < pinnedAppsModel.rowCount() - 1; onClicked: settingsWindow.movePinnedFromButton(row.itemId, row.index, "bottom") }
+                                        Button { text: "Remove"; Layout.preferredWidth: 74; Layout.minimumWidth: 74; Layout.preferredHeight: 24; onClicked: { settingsWindow.clearReorderTarget(); pinnedAppsModel.removeById(row.itemId) } }
                                     }
                                 }
                             }
@@ -308,8 +355,8 @@ Window {
                 GroupBox {
                     title: "Add installed app"
                     Layout.fillHeight: true
-                    Layout.preferredWidth: 292
-                    Layout.minimumWidth: 280
+                    Layout.preferredWidth: 270
+                    Layout.minimumWidth: 250
 
                     ColumnLayout {
                         anchors.fill: parent

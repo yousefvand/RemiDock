@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QModelIndex>
 #include <QProcess>
+#include <QProcessEnvironment>
 #include <QSet>
 #include <QTimer>
 #include <QFileInfo>
@@ -101,6 +102,27 @@ bool snapshotMatchesAnyKey(const RunningSnapshot &snapshot, const QStringList &k
     return false;
 }
 
+bool startDetachedWithApplicationEnvironment(const QString &program, const QStringList &arguments)
+{
+    QProcess process;
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+
+    /*
+     * RemiDock itself is a layer-shell surface.  LayerShellQt enables that by
+     * using the Qt Wayland shell-integration environment.  Child Qt/KDE
+     * applications must not inherit it, otherwise they can also start as
+     * layer-shell clients and appear undecorated/headless.
+     */
+    environment.remove(QStringLiteral("QT_WAYLAND_SHELL_INTEGRATION"));
+    environment.remove(QStringLiteral("QT_QPA_PLATFORMTHEME_LAYER_SHELL"));
+    environment.remove(QStringLiteral("LAYER_SHELL_QT_FORCE"));
+
+    process.setProcessEnvironment(environment);
+    process.setProgram(program);
+    process.setArguments(arguments);
+    return process.startDetached();
+}
+
 constexpr int kHandleSize = 28;
 constexpr int kOuterPadding = 10;
 constexpr int kHandleGap = 8;
@@ -193,11 +215,11 @@ void PinnedAppsModel::launch(int index)
     bool started = false;
 
     if (app.desktopFile.startsWith(QStringLiteral("custom:"))) {
-        started = QProcess::startDetached(app.exec, {});
+        started = startDetachedWithApplicationEnvironment(app.exec, {});
     } else {
         const QString command = cleanExec(app.exec);
         if (!command.isEmpty())
-            started = QProcess::startDetached("/bin/sh", {"-lc", command});
+            started = startDetachedWithApplicationEnvironment(QStringLiteral("/bin/sh"), {QStringLiteral("-lc"), command});
     }
 
     /*
@@ -300,13 +322,13 @@ void PinnedAppsModel::moveItem(int from, int to)
     if (from == to)
         return;
 
-    QList<PinnedApp> newApps = m_apps;
-    PinnedApp moved = newApps.takeAt(from);
-    newApps.insert(to, moved);
+    const int destinationChild = (to > from) ? to + 1 : to;
 
-    beginResetModel();
-    m_apps = newApps;
-    endResetModel();
+    if (!beginMoveRows(QModelIndex(), from, from, QModelIndex(), destinationChild))
+        return;
+
+    m_apps.move(from, to);
+    endMoveRows();
 
     save();
     emit itemCountChanged();
@@ -342,6 +364,12 @@ void PinnedAppsModel::moveToBottom(const QString &id)
     if (from < 0 || from >= m_apps.size() - 1)
         return;
     moveItem(from, m_apps.size() - 1);
+}
+
+
+int PinnedAppsModel::indexOfItem(const QString &id) const
+{
+    return indexOfId(id);
 }
 
 void PinnedAppsModel::refreshRunningState()

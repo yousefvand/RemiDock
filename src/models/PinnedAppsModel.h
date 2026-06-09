@@ -58,6 +58,7 @@ public:
     Q_INVOKABLE void moveDown(const QString &id);
     Q_INVOKABLE void moveToTop(const QString &id);
     Q_INVOKABLE void moveToBottom(const QString &id);
+    Q_INVOKABLE int indexOfItem(const QString &id) const;
 
     Q_INVOKABLE bool canFitAdditionalApp(int iconSize, int screenWidth, int screenHeight, const QString &edge) const;
     Q_INVOKABLE bool canFitAdditionalSeparator(int iconSize, int screenWidth, int screenHeight, const QString &edge) const;
