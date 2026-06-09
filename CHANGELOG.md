@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.1
+
+- Fixed aur.sh
+
 ## 0.2.0
 
 - Box around icons removed.

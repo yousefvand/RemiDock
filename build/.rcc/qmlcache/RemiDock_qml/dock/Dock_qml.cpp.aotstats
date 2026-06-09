@@ -230,6 +230,14 @@
                             "message": ""
                         },
                         {
+                            "codegenResult": 2,
+                            "column": 16,
+                            "durationMicroseconds": 0,
+                            "functionName": "color",
+                            "line": 118,
+                            "message": "Cannot access value for name dockController"
+                        },
+                        {
                             "codegenResult": 0,
                             "column": 12,
                             "durationMicroseconds": 0,
@@ -252,6 +260,22 @@
                             "functionName": "opacity",
                             "line": 137,
                             "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 23,
+                            "durationMicroseconds": 0,
+                            "functionName": "color",
+                            "line": 119,
+                            "message": "Cannot access value for name dockController"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 23,
+                            "durationMicroseconds": 0,
+                            "functionName": "width",
+                            "line": 120,
+                            "message": "Cannot access value for name dockController"
                         },
                         {
                             "codegenResult": 0,

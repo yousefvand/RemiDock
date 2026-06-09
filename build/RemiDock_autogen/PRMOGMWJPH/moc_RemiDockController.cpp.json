@@ -6,8 +6,8 @@
             "methods": [
                 {
                     "access": "public",
-                    "index": 20,
-                    "lineNumber": 33,
+                    "index": 22,
+                    "lineNumber": 35,
                     "name": "cycleEdge",
                     "returnType": "void"
                 },
@@ -23,43 +23,43 @@
                             "type": "qreal"
                         }
                     ],
-                    "index": 21,
-                    "lineNumber": 34,
-                    "name": "setEdgeFromDrag",
-                    "returnType": "void"
-                },
-                {
-                    "access": "public",
-                    "index": 22,
-                    "lineNumber": 35,
-                    "name": "openSettings",
-                    "returnType": "void"
-                },
-                {
-                    "access": "public",
                     "index": 23,
                     "lineNumber": 36,
-                    "name": "closeSettings",
+                    "name": "setEdgeFromDrag",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 24,
                     "lineNumber": 37,
-                    "name": "toggleSettings",
+                    "name": "openSettings",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 25,
                     "lineNumber": 38,
-                    "name": "toggleEditMode",
+                    "name": "closeSettings",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 26,
                     "lineNumber": 39,
+                    "name": "toggleSettings",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 27,
+                    "lineNumber": 40,
+                    "name": "toggleEditMode",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 28,
+                    "lineNumber": 41,
                     "name": "toggleMusicDance",
                     "returnType": "void"
                 }
@@ -227,6 +227,24 @@
                     "user": false,
                     "virtual": false,
                     "write": "setHoverAnimation"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 9,
+                    "lineNumber": 19,
+                    "name": "dockFrameVisible",
+                    "notify": "dockFrameVisibleChanged",
+                    "override": false,
+                    "read": "dockFrameVisible",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "virtual": false,
+                    "write": "setDockFrameVisible"
                 }
             ],
             "qualifiedClassName": "RemiDockController",
@@ -234,70 +252,77 @@
                 {
                     "access": "public",
                     "index": 0,
-                    "lineNumber": 54,
+                    "lineNumber": 57,
                     "name": "iconSizeChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 1,
-                    "lineNumber": 55,
+                    "lineNumber": 58,
                     "name": "dockHeightChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 2,
-                    "lineNumber": 56,
+                    "lineNumber": 59,
                     "name": "autoHideChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 3,
-                    "lineNumber": 57,
+                    "lineNumber": 60,
                     "name": "edgeChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 4,
-                    "lineNumber": 58,
+                    "lineNumber": 61,
                     "name": "editModeChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 5,
-                    "lineNumber": 59,
+                    "lineNumber": 62,
                     "name": "settingsVisibleChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 6,
-                    "lineNumber": 60,
+                    "lineNumber": 63,
                     "name": "musicDanceEnabledChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 7,
-                    "lineNumber": 61,
+                    "lineNumber": 64,
                     "name": "dockModeChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 8,
-                    "lineNumber": 62,
+                    "lineNumber": 65,
                     "name": "hoverAnimationChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 9,
-                    "lineNumber": 63,
+                    "lineNumber": 66,
+                    "name": "dockFrameVisibleChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 10,
+                    "lineNumber": 67,
                     "name": "layerShellNeedsReconfigure",
                     "returnType": "void"
                 }
@@ -311,8 +336,8 @@
                             "type": "int"
                         }
                     ],
-                    "index": 10,
-                    "lineNumber": 42,
+                    "index": 11,
+                    "lineNumber": 44,
                     "name": "setIconSize",
                     "returnType": "void"
                 },
@@ -324,8 +349,8 @@
                             "type": "int"
                         }
                     ],
-                    "index": 11,
-                    "lineNumber": 43,
+                    "index": 12,
+                    "lineNumber": 45,
                     "name": "setDockHeight",
                     "returnType": "void"
                 },
@@ -337,8 +362,8 @@
                             "type": "bool"
                         }
                     ],
-                    "index": 12,
-                    "lineNumber": 44,
+                    "index": 13,
+                    "lineNumber": 46,
                     "name": "setAutoHide",
                     "returnType": "void"
                 },
@@ -350,8 +375,8 @@
                             "type": "QString"
                         }
                     ],
-                    "index": 13,
-                    "lineNumber": 45,
+                    "index": 14,
+                    "lineNumber": 47,
                     "name": "setEdge",
                     "returnType": "void"
                 },
@@ -363,8 +388,8 @@
                             "type": "bool"
                         }
                     ],
-                    "index": 14,
-                    "lineNumber": 46,
+                    "index": 15,
+                    "lineNumber": 48,
                     "name": "setEditMode",
                     "returnType": "void"
                 },
@@ -376,8 +401,8 @@
                             "type": "bool"
                         }
                     ],
-                    "index": 15,
-                    "lineNumber": 47,
+                    "index": 16,
+                    "lineNumber": 49,
                     "name": "setSettingsVisible",
                     "returnType": "void"
                 },
@@ -389,8 +414,8 @@
                             "type": "bool"
                         }
                     ],
-                    "index": 16,
-                    "lineNumber": 48,
+                    "index": 17,
+                    "lineNumber": 50,
                     "name": "setMusicDanceEnabled",
                     "returnType": "void"
                 },
@@ -402,8 +427,8 @@
                             "type": "QString"
                         }
                     ],
-                    "index": 17,
-                    "lineNumber": 49,
+                    "index": 18,
+                    "lineNumber": 51,
                     "name": "setDockMode",
                     "returnType": "void"
                 },
@@ -415,15 +440,28 @@
                             "type": "QString"
                         }
                     ],
-                    "index": 18,
-                    "lineNumber": 50,
+                    "index": 19,
+                    "lineNumber": 52,
                     "name": "setHoverAnimation",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
-                    "index": 19,
-                    "lineNumber": 51,
+                    "arguments": [
+                        {
+                            "name": "value",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 20,
+                    "lineNumber": 53,
+                    "name": "setDockFrameVisible",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 21,
+                    "lineNumber": 54,
                     "name": "save",
                     "returnType": "void"
                 }
