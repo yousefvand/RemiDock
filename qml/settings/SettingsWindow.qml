@@ -119,7 +119,7 @@ Window {
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 154
+                Layout.preferredHeight: 188
                 color: "transparent"
                 clip: false
 
@@ -198,6 +198,43 @@ Window {
 
                         Label {
                             text: "Drop new QML plugins into qml/hoverAnimations and add them to CMake/settings."
+                            color: "#aaaaaa"
+                            font.pixelSize: 10
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 10
+
+                        Label {
+                            text: "Dock frame:"
+                            color: "white"
+                            Layout.preferredWidth: 130
+                        }
+
+                        Button {
+                            text: "No frame"
+                            Layout.preferredWidth: 180
+                            Layout.preferredHeight: 30
+                            checkable: true
+                            checked: !dockController.dockFrameVisible
+                            onClicked: dockController.dockFrameVisible = false
+                        }
+
+                        Button {
+                            text: "Show frame"
+                            Layout.preferredWidth: 180
+                            Layout.preferredHeight: 30
+                            checkable: true
+                            checked: dockController.dockFrameVisible
+                            onClicked: dockController.dockFrameVisible = true
+                        }
+
+                        Label {
+                            text: "Default is no frame."
                             color: "#aaaaaa"
                             font.pixelSize: 10
                             Layout.fillWidth: true

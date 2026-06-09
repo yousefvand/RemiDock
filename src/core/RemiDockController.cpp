@@ -13,6 +13,7 @@ RemiDockController::RemiDockController(QObject *parent)
     m_musicDanceEnabled = m_settings.value("Dock/musicDanceEnabled", false).toBool();
     m_dockMode = m_settings.value("Dock/dockMode", "always").toString();
     m_hoverAnimation = m_settings.value("Dock/hoverAnimation", "simple").toString();
+    m_dockFrameVisible = m_settings.value("Dock/frameVisible", false).toBool();
 
     if (!isValidEdge(m_edge))
         m_edge = "bottom";
@@ -33,6 +34,7 @@ bool RemiDockController::settingsVisible() const { return m_settingsVisible; }
 bool RemiDockController::musicDanceEnabled() const { return m_musicDanceEnabled; }
 QString RemiDockController::dockMode() const { return m_dockMode; }
 QString RemiDockController::hoverAnimation() const { return m_hoverAnimation; }
+bool RemiDockController::dockFrameVisible() const { return m_dockFrameVisible; }
 
 bool RemiDockController::isValidEdge(const QString &value) const
 {
@@ -154,6 +156,17 @@ void RemiDockController::setHoverAnimation(const QString &value)
     emit hoverAnimationChanged();
 }
 
+
+void RemiDockController::setDockFrameVisible(bool value)
+{
+    if (m_dockFrameVisible == value)
+        return;
+
+    m_dockFrameVisible = value;
+    save();
+    emit dockFrameVisibleChanged();
+}
+
 void RemiDockController::cycleEdge()
 {
     if (m_edge == "bottom")
@@ -213,4 +226,5 @@ void RemiDockController::save()
     m_settings.setValue("Dock/musicDanceEnabled", m_musicDanceEnabled);
     m_settings.setValue("Dock/dockMode", m_dockMode);
     m_settings.setValue("Dock/hoverAnimation", m_hoverAnimation);
+    m_settings.setValue("Dock/frameVisible", m_dockFrameVisible);
 }

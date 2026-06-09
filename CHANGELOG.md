@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.0
+
+- Box around icons removed.
+- Dock frame made optional.
+- AUR package added (for Archlinux).
+
 ## 0.1.1
 
 - Added exit button.

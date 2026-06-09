@@ -16,6 +16,7 @@ class RemiDockController : public QObject
     Q_PROPERTY(bool musicDanceEnabled READ musicDanceEnabled WRITE setMusicDanceEnabled NOTIFY musicDanceEnabledChanged)
     Q_PROPERTY(QString dockMode READ dockMode WRITE setDockMode NOTIFY dockModeChanged)
     Q_PROPERTY(QString hoverAnimation READ hoverAnimation WRITE setHoverAnimation NOTIFY hoverAnimationChanged)
+    Q_PROPERTY(bool dockFrameVisible READ dockFrameVisible WRITE setDockFrameVisible NOTIFY dockFrameVisibleChanged)
 
 public:
     explicit RemiDockController(QObject *parent = nullptr);
@@ -29,6 +30,7 @@ public:
     bool musicDanceEnabled() const;
     QString dockMode() const;
     QString hoverAnimation() const;
+    bool dockFrameVisible() const;
 
     Q_INVOKABLE void cycleEdge();
     Q_INVOKABLE void setEdgeFromDrag(qreal dx, qreal dy);
@@ -48,6 +50,7 @@ public slots:
     void setMusicDanceEnabled(bool value);
     void setDockMode(const QString &value);
     void setHoverAnimation(const QString &value);
+    void setDockFrameVisible(bool value);
     void save();
 
 signals:
@@ -60,6 +63,7 @@ signals:
     void musicDanceEnabledChanged();
     void dockModeChanged();
     void hoverAnimationChanged();
+    void dockFrameVisibleChanged();
     void layerShellNeedsReconfigure();
 
 private:
@@ -77,4 +81,5 @@ private:
     bool m_musicDanceEnabled = false;
     QString m_dockMode = "always";
     QString m_hoverAnimation = "simple";
+    bool m_dockFrameVisible = false;
 };

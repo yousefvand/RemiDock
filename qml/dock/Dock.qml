@@ -115,9 +115,9 @@ Item {
         width: dock.backgroundWidth
         height: dock.backgroundHeight
         radius: 24
-        color: "#dd202028"
-        border.color: "#55ffffff"
-        border.width: 1
+        color: dockController.dockFrameVisible ? "#dd202028" : "transparent"
+        border.color: dockController.dockFrameVisible ? "#55ffffff" : "transparent"
+        border.width: dockController.dockFrameVisible ? 1 : 0
         clip: false
 
         x: {

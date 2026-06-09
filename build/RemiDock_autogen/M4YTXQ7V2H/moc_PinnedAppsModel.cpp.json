@@ -153,15 +153,27 @@
                     "access": "public",
                     "arguments": [
                         {
-                            "name": "id",
+                            "name": "iconSize",
+                            "type": "int"
+                        },
+                        {
+                            "name": "screenWidth",
+                            "type": "int"
+                        },
+                        {
+                            "name": "screenHeight",
+                            "type": "int"
+                        },
+                        {
+                            "name": "edge",
                             "type": "QString"
                         }
                     ],
                     "index": 12,
                     "isConst": true,
-                    "lineNumber": 61,
-                    "name": "indexOfItem",
-                    "returnType": "int"
+                    "lineNumber": 62,
+                    "name": "canFitAdditionalApp",
+                    "returnType": "bool"
                 },
                 {
                     "access": "public",
@@ -186,32 +198,6 @@
                     "index": 13,
                     "isConst": true,
                     "lineNumber": 63,
-                    "name": "canFitAdditionalApp",
-                    "returnType": "bool"
-                },
-                {
-                    "access": "public",
-                    "arguments": [
-                        {
-                            "name": "iconSize",
-                            "type": "int"
-                        },
-                        {
-                            "name": "screenWidth",
-                            "type": "int"
-                        },
-                        {
-                            "name": "screenHeight",
-                            "type": "int"
-                        },
-                        {
-                            "name": "edge",
-                            "type": "QString"
-                        }
-                    ],
-                    "index": 14,
-                    "isConst": true,
-                    "lineNumber": 64,
                     "name": "canFitAdditionalSeparator",
                     "returnType": "bool"
                 },
@@ -231,9 +217,9 @@
                             "type": "QString"
                         }
                     ],
-                    "index": 15,
+                    "index": 14,
                     "isConst": true,
-                    "lineNumber": 65,
+                    "lineNumber": 64,
                     "name": "estimatedDockExtentWithAdditional",
                     "returnType": "int"
                 },
@@ -253,23 +239,23 @@
                             "type": "QString"
                         }
                     ],
-                    "index": 16,
+                    "index": 15,
                     "isConst": true,
-                    "lineNumber": 66,
+                    "lineNumber": 65,
                     "name": "maximumDockExtent",
                     "returnType": "int"
                 },
                 {
                     "access": "public",
-                    "index": 17,
-                    "lineNumber": 68,
+                    "index": 16,
+                    "lineNumber": 67,
                     "name": "resetDefaults",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
-                    "index": 18,
-                    "lineNumber": 69,
+                    "index": 17,
+                    "lineNumber": 68,
                     "name": "refreshRunningState",
                     "returnType": "void"
                 }
@@ -299,7 +285,7 @@
                 {
                     "access": "public",
                     "index": 0,
-                    "lineNumber": 72,
+                    "lineNumber": 71,
                     "name": "itemCountChanged",
                     "returnType": "void"
                 }

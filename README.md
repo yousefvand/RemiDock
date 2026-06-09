@@ -125,6 +125,16 @@ Run:
 
 ---
 
+##
+
+For Archlinux users:
+
+```bash
+yay -S RemiDock
+```
+
+---
+
 ## Project structure
 
 ```text

@@ -40,7 +40,7 @@
                         {
                             "codegenResult": 2,
                             "column": 38,
-                            "durationMicroseconds": 1000,
+                            "durationMicroseconds": 2000,
                             "functionName": "fireMode",
                             "line": 34,
                             "message": "Cannot access value for name dockController"
@@ -48,7 +48,7 @@
                         {
                             "codegenResult": 2,
                             "column": 38,
-                            "durationMicroseconds": 1000,
+                            "durationMicroseconds": 2000,
                             "functionName": "fadeMode",
                             "line": 35,
                             "message": "Cannot access value for name dockController"
@@ -56,7 +56,7 @@
                         {
                             "codegenResult": 2,
                             "column": 40,
-                            "durationMicroseconds": 2000,
+                            "durationMicroseconds": 4000,
                             "functionName": "simpleMode",
                             "line": 36,
                             "message": "Cannot access value for name dockController"
@@ -192,7 +192,7 @@
                         {
                             "codegenResult": 0,
                             "column": 22,
-                            "durationMicroseconds": 2000,
+                            "durationMicroseconds": 7000,
                             "functionName": "onTriggered",
                             "line": 65,
                             "message": ""
@@ -215,26 +215,42 @@
                         },
                         {
                             "codegenResult": 0,
+                            "column": 16,
+                            "durationMicroseconds": 1000,
+                            "functionName": "color",
+                            "line": 115,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 23,
+                            "durationMicroseconds": 0,
+                            "functionName": "fill",
+                            "line": 113,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
                             "column": 18,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 117,
+                            "line": 123,
                             "message": ""
                         },
                         {
                             "codegenResult": 2,
                             "column": 16,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 1000,
                             "functionName": "width",
-                            "line": 123,
+                            "line": 129,
                             "message": "Cannot access value for name dockController"
                         },
                         {
                             "codegenResult": 2,
                             "column": 17,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 1000,
                             "functionName": "height",
-                            "line": 124,
+                            "line": 130,
                             "message": "Cannot access value for name dockController"
                         },
                         {
@@ -242,7 +258,7 @@
                             "column": 18,
                             "durationMicroseconds": 0,
                             "functionName": "opacity",
-                            "line": 126,
+                            "line": 132,
                             "message": ""
                         },
                         {
@@ -250,7 +266,7 @@
                             "column": 16,
                             "durationMicroseconds": 0,
                             "functionName": "scale",
-                            "line": 127,
+                            "line": 133,
                             "message": ""
                         },
                         {
@@ -258,7 +274,7 @@
                             "column": 27,
                             "durationMicroseconds": 0,
                             "functionName": "onVisibleChanged",
-                            "line": 155,
+                            "line": 161,
                             "message": ""
                         },
                         {
@@ -266,7 +282,7 @@
                             "column": 35,
                             "durationMicroseconds": 0,
                             "functionName": "horizontalCenter",
-                            "line": 119,
+                            "line": 125,
                             "message": ""
                         },
                         {
@@ -274,7 +290,7 @@
                             "column": 33,
                             "durationMicroseconds": 0,
                             "functionName": "verticalCenter",
-                            "line": 120,
+                            "line": 126,
                             "message": ""
                         },
                         {
@@ -282,7 +298,7 @@
                             "column": 39,
                             "durationMicroseconds": 0,
                             "functionName": "verticalCenterOffset",
-                            "line": 121,
+                            "line": 127,
                             "message": "Cannot access value for name dockController"
                         },
                         {
@@ -290,15 +306,15 @@
                             "column": 22,
                             "durationMicroseconds": 0,
                             "functionName": "running",
-                            "line": 137,
+                            "line": 143,
                             "message": ""
                         },
                         {
                             "codegenResult": 0,
                             "column": 26,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 1000,
                             "functionName": "onTriggered",
-                            "line": 138,
+                            "line": 144,
                             "message": ""
                         },
                         {
@@ -306,15 +322,15 @@
                             "column": 23,
                             "durationMicroseconds": 0,
                             "functionName": "fillMode",
-                            "line": 144,
+                            "line": 150,
                             "message": ""
                         },
                         {
                             "codegenResult": 0,
                             "column": 29,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 2000,
                             "functionName": "sourceClipRect",
-                            "line": 147,
+                            "line": 153,
                             "message": ""
                         },
                         {
@@ -322,7 +338,7 @@
                             "column": 27,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 142,
+                            "line": 148,
                             "message": ""
                         },
                         {
@@ -330,7 +346,7 @@
                             "column": 30,
                             "durationMicroseconds": 0,
                             "functionName": "type",
-                            "line": 163,
+                            "line": 169,
                             "message": ""
                         },
                         {
@@ -338,23 +354,23 @@
                             "column": 30,
                             "durationMicroseconds": 0,
                             "functionName": "type",
-                            "line": 170,
+                            "line": 176,
                             "message": ""
                         },
                         {
                             "codegenResult": 2,
                             "column": 16,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 1000,
                             "functionName": "width",
-                            "line": 179,
+                            "line": 185,
                             "message": "Cannot access value for name dockController"
                         },
                         {
                             "codegenResult": 2,
                             "column": 17,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 1000,
                             "functionName": "height",
-                            "line": 180,
+                            "line": 186,
                             "message": "Cannot access value for name dockController"
                         },
                         {
@@ -362,7 +378,7 @@
                             "column": 17,
                             "durationMicroseconds": 0,
                             "functionName": "source",
-                            "line": 181,
+                            "line": 187,
                             "message": ""
                         },
                         {
@@ -370,15 +386,15 @@
                             "column": 26,
                             "durationMicroseconds": 0,
                             "functionName": "transformOrigin",
-                            "line": 184,
+                            "line": 190,
                             "message": ""
                         },
                         {
                             "codegenResult": 0,
                             "column": 18,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 1000,
                             "functionName": "opacity",
-                            "line": 185,
+                            "line": 191,
                             "message": ""
                         },
                         {
@@ -386,7 +402,7 @@
                             "column": 16,
                             "durationMicroseconds": 0,
                             "functionName": "scale",
-                            "line": 186,
+                            "line": 192,
                             "message": ""
                         },
                         {
@@ -394,7 +410,7 @@
                             "column": 19,
                             "durationMicroseconds": 0,
                             "functionName": "rotation",
-                            "line": 187,
+                            "line": 193,
                             "message": ""
                         },
                         {
@@ -402,7 +418,7 @@
                             "column": 27,
                             "durationMicroseconds": 0,
                             "functionName": "centerIn",
-                            "line": 178,
+                            "line": 184,
                             "message": ""
                         },
                         {
@@ -410,7 +426,7 @@
                             "column": 16,
                             "durationMicroseconds": 0,
                             "functionName": "x",
-                            "line": 190,
+                            "line": 196,
                             "message": ""
                         },
                         {
@@ -418,7 +434,7 @@
                             "column": 16,
                             "durationMicroseconds": 0,
                             "functionName": "y",
-                            "line": 191,
+                            "line": 197,
                             "message": ""
                         },
                         {
@@ -426,7 +442,7 @@
                             "column": 77,
                             "durationMicroseconds": 0,
                             "functionName": "type",
-                            "line": 194,
+                            "line": 200,
                             "message": ""
                         },
                         {
@@ -434,7 +450,7 @@
                             "column": 75,
                             "durationMicroseconds": 0,
                             "functionName": "type",
-                            "line": 195,
+                            "line": 201,
                             "message": ""
                         },
                         {
@@ -442,7 +458,7 @@
                             "column": 77,
                             "durationMicroseconds": 0,
                             "functionName": "type",
-                            "line": 196,
+                            "line": 202,
                             "message": ""
                         },
                         {
@@ -450,7 +466,7 @@
                             "column": 18,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 201,
+                            "line": 207,
                             "message": ""
                         },
                         {
@@ -458,7 +474,7 @@
                             "column": 16,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 203,
+                            "line": 209,
                             "message": ""
                         },
                         {
@@ -466,23 +482,23 @@
                             "column": 17,
                             "durationMicroseconds": 0,
                             "functionName": "height",
-                            "line": 204,
+                            "line": 210,
                             "message": ""
                         },
                         {
                             "codegenResult": 0,
                             "column": 16,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 1000,
                             "functionName": "color",
-                            "line": 206,
+                            "line": 212,
                             "message": ""
                         },
                         {
                             "codegenResult": 2,
                             "column": 35,
-                            "durationMicroseconds": 0,
+                            "durationMicroseconds": 1000,
                             "functionName": "horizontalCenter",
-                            "line": 209,
+                            "line": 215,
                             "message": "Cannot generate efficient code for internal conversion with incompatible or ambiguous types: conversion to QVariant -> QQuickAnchorLine stored as QVariant"
                         },
                         {
@@ -490,7 +506,7 @@
                             "column": 33,
                             "durationMicroseconds": 0,
                             "functionName": "verticalCenter",
-                            "line": 210,
+                            "line": 216,
                             "message": "Cannot generate efficient code for internal conversion with incompatible or ambiguous types: conversion to QVariant -> QQuickAnchorLine stored as QVariant"
                         },
                         {
@@ -498,7 +514,7 @@
                             "column": 25,
                             "durationMicroseconds": 0,
                             "functionName": "bottom",
-                            "line": 211,
+                            "line": 217,
                             "message": "Cannot generate efficient code for internal conversion with incompatible or ambiguous types: conversion to QVariant -> QQuickAnchorLine stored as QVariant"
                         },
                         {
@@ -506,7 +522,7 @@
                             "column": 31,
                             "durationMicroseconds": 0,
                             "functionName": "bottomMargin",
-                            "line": 212,
+                            "line": 218,
                             "message": ""
                         },
                         {
@@ -514,7 +530,7 @@
                             "column": 24,
                             "durationMicroseconds": 0,
                             "functionName": "right",
-                            "line": 213,
+                            "line": 219,
                             "message": "Cannot generate efficient code for internal conversion with incompatible or ambiguous types: conversion to QVariant -> QQuickAnchorLine stored as QVariant"
                         },
                         {
@@ -522,7 +538,7 @@
                             "column": 30,
                             "durationMicroseconds": 0,
                             "functionName": "rightMargin",
-                            "line": 214,
+                            "line": 220,
                             "message": ""
                         },
                         {
@@ -530,7 +546,7 @@
                             "column": 22,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 217,
+                            "line": 223,
                             "message": "Could not find property \"visible\"."
                         },
                         {
@@ -538,7 +554,7 @@
                             "column": 19,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 219,
+                            "line": 225,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -546,7 +562,7 @@
                             "column": 17,
                             "durationMicroseconds": 0,
                             "functionName": "target",
-                            "line": 223,
+                            "line": 229,
                             "message": ""
                         },
                         {
@@ -554,7 +570,7 @@
                             "column": 27,
                             "durationMicroseconds": 0,
                             "functionName": "onHoveredChanged",
-                            "line": 225,
+                            "line": 231,
                             "message": ""
                         },
                         {
@@ -562,7 +578,7 @@
                             "column": 26,
                             "durationMicroseconds": 0,
                             "functionName": "acceptedButtons",
-                            "line": 235,
+                            "line": 241,
                             "message": ""
                         },
                         {
@@ -570,7 +586,7 @@
                             "column": 20,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 237,
+                            "line": 243,
                             "message": "Cannot retrieve a non-object type by ID: menu"
                         },
                         {
@@ -578,7 +594,7 @@
                             "column": 20,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 237,
+                            "line": 243,
                             "message": ""
                         },
                         {
@@ -586,7 +602,7 @@
                             "column": 23,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 233,
+                            "line": 239,
                             "message": ""
                         },
                         {
@@ -594,7 +610,7 @@
                             "column": 26,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 248,
+                            "line": 254,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -602,7 +618,7 @@
                             "column": 56,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 248,
+                            "line": 254,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -610,7 +626,7 @@
                             "column": 92,
                             "durationMicroseconds": 0,
                             "functionName": "onTriggered",
-                            "line": 248,
+                            "line": 254,
                             "message": "Could not find signal \"triggered\"."
                         },
                         {
@@ -618,7 +634,7 @@
                             "column": 63,
                             "durationMicroseconds": 0,
                             "functionName": "onTriggered",
-                            "line": 250,
+                            "line": 256,
                             "message": "Could not find signal \"triggered\"."
                         }
                     ],

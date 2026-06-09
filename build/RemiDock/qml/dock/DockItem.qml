@@ -109,6 +109,12 @@ Item {
         return base
     }
 
+    Rectangle {
+        anchors.fill: parent
+        radius: 18
+        color: item.hovered ? "#33ffffff" : "transparent"
+    }
+
     // Fire layer: sprite-sheet based animation.
     // This avoids relying on Qt AnimatedImage decoding APNG/WebP/GIF.
     Item {

@@ -59,7 +59,6 @@ template <> constexpr inline auto PinnedAppsModel::qt_create_metaobjectdata<qt_m
         "moveDown",
         "moveToTop",
         "moveToBottom",
-        "indexOfItem",
         "canFitAdditionalApp",
         "iconSize",
         "screenWidth",
@@ -119,34 +118,30 @@ template <> constexpr inline auto PinnedAppsModel::qt_create_metaobjectdata<qt_m
         QtMocHelpers::MethodData<void(const QString &)>(20, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 13 },
         }}),
-        // Method 'indexOfItem'
-        QtMocHelpers::MethodData<int(const QString &) const>(21, 2, QMC::AccessPublic, QMetaType::Int, {{
-            { QMetaType::QString, 13 },
-        }}),
         // Method 'canFitAdditionalApp'
-        QtMocHelpers::MethodData<bool(int, int, int, const QString &) const>(22, 2, QMC::AccessPublic, QMetaType::Bool, {{
-            { QMetaType::Int, 23 }, { QMetaType::Int, 24 }, { QMetaType::Int, 25 }, { QMetaType::QString, 26 },
+        QtMocHelpers::MethodData<bool(int, int, int, const QString &) const>(21, 2, QMC::AccessPublic, QMetaType::Bool, {{
+            { QMetaType::Int, 22 }, { QMetaType::Int, 23 }, { QMetaType::Int, 24 }, { QMetaType::QString, 25 },
         }}),
         // Method 'canFitAdditionalSeparator'
-        QtMocHelpers::MethodData<bool(int, int, int, const QString &) const>(27, 2, QMC::AccessPublic, QMetaType::Bool, {{
-            { QMetaType::Int, 23 }, { QMetaType::Int, 24 }, { QMetaType::Int, 25 }, { QMetaType::QString, 26 },
+        QtMocHelpers::MethodData<bool(int, int, int, const QString &) const>(26, 2, QMC::AccessPublic, QMetaType::Bool, {{
+            { QMetaType::Int, 22 }, { QMetaType::Int, 23 }, { QMetaType::Int, 24 }, { QMetaType::QString, 25 },
         }}),
         // Method 'estimatedDockExtentWithAdditional'
-        QtMocHelpers::MethodData<int(const QString &, int, const QString &) const>(28, 2, QMC::AccessPublic, QMetaType::Int, {{
-            { QMetaType::QString, 29 }, { QMetaType::Int, 23 }, { QMetaType::QString, 26 },
+        QtMocHelpers::MethodData<int(const QString &, int, const QString &) const>(27, 2, QMC::AccessPublic, QMetaType::Int, {{
+            { QMetaType::QString, 28 }, { QMetaType::Int, 22 }, { QMetaType::QString, 25 },
         }}),
         // Method 'maximumDockExtent'
-        QtMocHelpers::MethodData<int(int, int, const QString &) const>(30, 2, QMC::AccessPublic, QMetaType::Int, {{
-            { QMetaType::Int, 24 }, { QMetaType::Int, 25 }, { QMetaType::QString, 26 },
+        QtMocHelpers::MethodData<int(int, int, const QString &) const>(29, 2, QMC::AccessPublic, QMetaType::Int, {{
+            { QMetaType::Int, 23 }, { QMetaType::Int, 24 }, { QMetaType::QString, 25 },
         }}),
         // Method 'resetDefaults'
-        QtMocHelpers::MethodData<void()>(31, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::MethodData<void()>(30, 2, QMC::AccessPublic, QMetaType::Void),
         // Method 'refreshRunningState'
-        QtMocHelpers::MethodData<void()>(32, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::MethodData<void()>(31, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
         // property 'itemCount'
-        QtMocHelpers::PropertyData<int>(33, QMetaType::Int, QMC::DefaultPropertyFlags, 0),
+        QtMocHelpers::PropertyData<int>(32, QMetaType::Int, QMC::DefaultPropertyFlags, 0),
     };
     QtMocHelpers::UintData qt_enums {
     };
@@ -183,18 +178,16 @@ void PinnedAppsModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 9: _t->moveDown((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
         case 10: _t->moveToTop((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
         case 11: _t->moveToBottom((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 12: { int _r = _t->indexOfItem((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])));
-            if (_a[0]) *reinterpret_cast<int*>(_a[0]) = std::move(_r); }  break;
-        case 13: { bool _r = _t->canFitAdditionalApp((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[4])));
+        case 12: { bool _r = _t->canFitAdditionalApp((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[4])));
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 14: { bool _r = _t->canFitAdditionalSeparator((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[4])));
+        case 13: { bool _r = _t->canFitAdditionalSeparator((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[4])));
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 15: { int _r = _t->estimatedDockExtentWithAdditional((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[3])));
+        case 14: { int _r = _t->estimatedDockExtentWithAdditional((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[3])));
             if (_a[0]) *reinterpret_cast<int*>(_a[0]) = std::move(_r); }  break;
-        case 16: { int _r = _t->maximumDockExtent((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[3])));
+        case 15: { int _r = _t->maximumDockExtent((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[3])));
             if (_a[0]) *reinterpret_cast<int*>(_a[0]) = std::move(_r); }  break;
-        case 17: _t->resetDefaults(); break;
-        case 18: _t->refreshRunningState(); break;
+        case 16: _t->resetDefaults(); break;
+        case 17: _t->refreshRunningState(); break;
         default: ;
         }
     }
@@ -230,14 +223,14 @@ int PinnedAppsModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 19)
+        if (_id < 18)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 18;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 19)
+        if (_id < 18)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 19;
+        _id -= 18;
     }
     if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty
