@@ -5,7 +5,7 @@ set -Eeuo pipefail
 #
 # Default values are set for:
 #   pkgname:  remidock
-#   version:  0.2.0
+#   version:  0.3.0
 #   source:   https://github.com/yousefvand/RemiDock.git
 #   binary:   RemiDock
 #
@@ -16,8 +16,9 @@ set -Eeuo pipefail
 # package via makepkg/pacman so pacman owns the installed files.
 #
 # Useful environment overrides:
-#   VERSION=0.2.1 ./aur.sh
-#   TAG=v0.2.1 ./aur.sh
+#   VERSION=0.3.1 ./aur.sh
+#   TAG=v0.3.1 ./aur.sh
+#   PKGREL=2 ./aur.sh
 #   AUR_WORKDIR="$PWD/.aur" ./aur.sh
 #   SKIP_PACKAGE_INSTALL=1 ./aur.sh
 #   SKIP_RUN=1 ./aur.sh
@@ -25,7 +26,7 @@ set -Eeuo pipefail
 #   NONINTERACTIVE=1 ./aur.sh
 
 PKGNAME="${PKGNAME:-remidock}"
-VERSION="${VERSION:-0.2.0}"
+VERSION="${VERSION:-0.3.1}"
 GITHUB_REPO="${GITHUB_REPO:-https://github.com/yousefvand/RemiDock.git}"
 BINARY_NAME="${BINARY_NAME:-RemiDock}"
 APP_ID="${APP_ID:-org.remisa.RemiDock}"
@@ -47,6 +48,7 @@ SKIP_PACKAGE_INSTALL="${SKIP_PACKAGE_INSTALL:-0}"
 SKIP_RUN="${SKIP_RUN:-0}"
 SKIP_AUR_PUBLISH="${SKIP_AUR_PUBLISH:-0}"
 CREATE_TAG_IF_MISSING="${CREATE_TAG_IF_MISSING:-0}"
+PKGREL="${PKGREL:-1}"
 
 PROJECT_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 AUR_REPO_DIR="$AUR_WORKDIR/$PKGNAME"
@@ -250,7 +252,7 @@ write_pkgbuild() {
 
 pkgname=$PKGNAME
 pkgver=$VERSION
-pkgrel=2
+pkgrel=$PKGREL
 pkgdesc='Custom Qt/QML dock for KDE Plasma Wayland'
 arch=('x86_64')
 url='https://github.com/yousefvand/RemiDock'
@@ -353,9 +355,9 @@ publish_aur_package() {
             exit 0
         fi
 
-        git commit -m "Update $PKGNAME to $VERSION-2"
+        git commit -m "Update $PKGNAME to $VERSION-$PKGREL"
 
-        if [[ "$NONINTERACTIVE" == "1" ]] || confirm "Push $PKGNAME $VERSION-2 to the AUR now?"; then
+        if [[ "$NONINTERACTIVE" == "1" ]] || confirm "Push $PKGNAME $VERSION-$PKGREL to the AUR now?"; then
             git push origin master
         else
             if [[ "$CLEAN_AUR_WORKDIR" == "1" ]]; then

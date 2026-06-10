@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.3.1
+
+- Updated aur.sh
+- Added /build to .gitignore
+
 ## 0.2.1
 
 - Fixed aur.sh
