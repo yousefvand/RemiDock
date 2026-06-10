@@ -178,7 +178,8 @@ Item {
         anchors.centerIn: parent
         width: dockController.iconSize
         height: dockController.iconSize
-        source: "image://icon/" + item.appIcon
+        source: "image://icon/" + dockController.iconThemeRevision + "/" + item.appIcon
+        cache: false
         smooth: true
         mipmap: true
         transformOrigin: Item.Center

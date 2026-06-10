@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QIcon>
+#include <QDir>
+#include <QStandardPaths>
 #include <QQuickWindow>
 #include <QSurfaceFormat>
 #include <QTimer>
@@ -30,9 +32,17 @@ int main(int argc, char *argv[])
 
     LayerShellQt::Shell::useLayerShell();
 
+    QStringList iconSearchPaths = QIcon::themeSearchPaths();
+    const QStringList dataLocations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    for (const QString &dataLocation : dataLocations)
+        iconSearchPaths << dataLocation + QStringLiteral("/icons");
+    iconSearchPaths << QDir::homePath() + QStringLiteral("/.icons");
+    iconSearchPaths << QStringLiteral("/usr/share/icons");
+    iconSearchPaths << QStringLiteral("/usr/local/share/icons");
+    QIcon::setThemeSearchPaths(iconSearchPaths);
+    QIcon::setFallbackThemeName(QStringLiteral("hicolor"));
     QIcon::setFallbackSearchPaths({
-        "/usr/share/icons",
-        "/usr/share/pixmaps"
+        QStringLiteral("/usr/share/pixmaps")
     });
 
     RemiDockController dockController;

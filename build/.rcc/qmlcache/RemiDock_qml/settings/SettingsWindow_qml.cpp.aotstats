@@ -311,10 +311,66 @@
                         },
                         {
                             "codegenResult": 2,
+                            "column": 36,
+                            "durationMicroseconds": 0,
+                            "functionName": "model",
+                            "line": 224,
+                            "message": "Could not find property \"model\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 29,
+                            "durationMicroseconds": 0,
+                            "functionName": "syncToController",
+                            "line": 226,
+                            "message": "Cannot access value for name dockController"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "onActivated",
+                            "line": 231,
+                            "message": "Could not find signal \"activated\"."
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 52,
+                            "durationMicroseconds": 0,
+                            "functionName": "onCompleted",
+                            "line": 230,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 41,
+                            "durationMicroseconds": 0,
+                            "functionName": "target",
+                            "line": 234,
+                            "message": "Cannot access value for name dockController"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 33,
+                            "durationMicroseconds": 0,
+                            "functionName": "onIconThemeChanged",
+                            "line": 235,
+                            "message": "Cannot retrieve a non-object type by ID: iconThemeCombo"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 36,
+                            "durationMicroseconds": 0,
+                            "functionName": "elide",
+                            "line": 246,
+                            "message": "Could not find property \"elide\"."
+                        },
+                        {
+                            "codegenResult": 2,
                             "column": 38,
                             "durationMicroseconds": 0,
                             "functionName": "checked",
-                            "line": 223,
+                            "line": 265,
                             "message": "Could not find property \"checked\"."
                         },
                         {
@@ -322,7 +378,7 @@
                             "column": 40,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 224,
+                            "line": 266,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -330,7 +386,7 @@
                             "column": 38,
                             "durationMicroseconds": 0,
                             "functionName": "checked",
-                            "line": 232,
+                            "line": 274,
                             "message": "Could not find property \"checked\"."
                         },
                         {
@@ -338,7 +394,7 @@
                             "column": 40,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 233,
+                            "line": 275,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -346,7 +402,7 @@
                             "column": 36,
                             "durationMicroseconds": 0,
                             "functionName": "elide",
-                            "line": 241,
+                            "line": 283,
                             "message": "Could not find property \"elide\"."
                         },
                         {
@@ -354,7 +410,7 @@
                             "column": 39,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 259,
+                            "line": 301,
                             "message": ""
                         },
                         {
@@ -362,7 +418,7 @@
                             "column": 145,
                             "durationMicroseconds": 0,
                             "functionName": "elide",
-                            "line": 265,
+                            "line": 307,
                             "message": "Could not find property \"elide\"."
                         },
                         {
@@ -370,7 +426,7 @@
                             "column": 42,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 269,
+                            "line": 311,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -378,7 +434,7 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 270,
+                            "line": 312,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -386,7 +442,7 @@
                             "column": 36,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 276,
+                            "line": 318,
                             "message": "Could not find property \"color\"."
                         },
                         {
@@ -394,7 +450,7 @@
                             "column": 39,
                             "durationMicroseconds": 0,
                             "functionName": "wrapMode",
-                            "line": 278,
+                            "line": 320,
                             "message": "Could not find property \"wrapMode\"."
                         },
                         {
@@ -402,7 +458,7 @@
                             "column": 35,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 279,
+                            "line": 321,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -410,7 +466,7 @@
                             "column": 40,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 294,
+                            "line": 336,
                             "message": ""
                         },
                         {
@@ -418,7 +474,7 @@
                             "column": 40,
                             "durationMicroseconds": 0,
                             "functionName": "model",
-                            "line": 295,
+                            "line": 337,
                             "message": "Cannot access value for name pinnedAppsModel"
                         },
                         {
@@ -426,7 +482,7 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 308,
+                            "line": 350,
                             "message": "Cannot access value for name pinnedList"
                         },
                         {
@@ -434,7 +490,7 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 311,
+                            "line": 353,
                             "message": ""
                         },
                         {
@@ -442,7 +498,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 314,
+                            "line": 356,
                             "message": ""
                         },
                         {
@@ -450,7 +506,7 @@
                             "column": 62,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 324,
+                            "line": 366,
                             "message": ""
                         },
                         {
@@ -458,7 +514,7 @@
                             "column": 120,
                             "durationMicroseconds": 0,
                             "functionName": "source",
-                            "line": 324,
+                            "line": 366,
                             "message": ""
                         },
                         {
@@ -466,7 +522,7 @@
                             "column": 104,
                             "durationMicroseconds": 0,
                             "functionName": "centerIn",
-                            "line": 324,
+                            "line": 366,
                             "message": ""
                         },
                         {
@@ -474,7 +530,7 @@
                             "column": 66,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 325,
+                            "line": 367,
                             "message": ""
                         },
                         {
@@ -482,7 +538,7 @@
                             "column": 114,
                             "durationMicroseconds": 0,
                             "functionName": "centerIn",
-                            "line": 325,
+                            "line": 367,
                             "message": ""
                         },
                         {
@@ -490,7 +546,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 328,
+                            "line": 370,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -498,7 +554,7 @@
                             "column": 117,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 328,
+                            "line": 370,
                             "message": "Could not find property \"color\"."
                         },
                         {
@@ -506,7 +562,7 @@
                             "column": 200,
                             "durationMicroseconds": 0,
                             "functionName": "elide",
-                            "line": 328,
+                            "line": 370,
                             "message": "Could not find property \"elide\"."
                         },
                         {
@@ -514,7 +570,7 @@
                             "column": 58,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 329,
+                            "line": 371,
                             "message": "Could not find property \"visible\"."
                         },
                         {
@@ -522,7 +578,7 @@
                             "column": 88,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 329,
+                            "line": 371,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -530,7 +586,7 @@
                             "column": 176,
                             "durationMicroseconds": 0,
                             "functionName": "elide",
-                            "line": 329,
+                            "line": 371,
                             "message": "Could not find property \"elide\"."
                         },
                         {
@@ -538,7 +594,7 @@
                             "column": 152,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 330,
+                            "line": 372,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -546,7 +602,7 @@
                             "column": 178,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 330,
+                            "line": 372,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -554,7 +610,7 @@
                             "column": 150,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 331,
+                            "line": 373,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -562,7 +618,7 @@
                             "column": 176,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 331,
+                            "line": 373,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -570,7 +626,7 @@
                             "column": 150,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 332,
+                            "line": 374,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -578,7 +634,7 @@
                             "column": 205,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 332,
+                            "line": 374,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -586,7 +642,7 @@
                             "column": 155,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 333,
+                            "line": 375,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -594,7 +650,7 @@
                             "column": 210,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 333,
+                            "line": 375,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -602,7 +658,7 @@
                             "column": 157,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 334,
+                            "line": 376,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -610,7 +666,7 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 360,
+                            "line": 402,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -618,7 +674,7 @@
                             "column": 42,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 367,
+                            "line": 409,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -626,7 +682,7 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 368,
+                            "line": 410,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -634,7 +690,7 @@
                             "column": 35,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 384,
+                            "line": 426,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -642,7 +698,7 @@
                             "column": 36,
                             "durationMicroseconds": 0,
                             "functionName": "elide",
-                            "line": 387,
+                            "line": 429,
                             "message": "Could not find property \"elide\"."
                         },
                         {
@@ -650,7 +706,7 @@
                             "column": 39,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 399,
+                            "line": 441,
                             "message": ""
                         },
                         {
@@ -658,7 +714,7 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "onTextChanged",
-                            "line": 408,
+                            "line": 450,
                             "message": "Could not find signal \"textChanged\"."
                         },
                         {
@@ -666,7 +722,7 @@
                             "column": 36,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 414,
+                            "line": 456,
                             "message": "Could not find property \"color\"."
                         },
                         {
@@ -674,7 +730,7 @@
                             "column": 39,
                             "durationMicroseconds": 0,
                             "functionName": "wrapMode",
-                            "line": 416,
+                            "line": 458,
                             "message": "Could not find property \"wrapMode\"."
                         },
                         {
@@ -682,7 +738,7 @@
                             "column": 35,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 417,
+                            "line": 459,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -690,7 +746,7 @@
                             "column": 40,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 427,
+                            "line": 469,
                             "message": ""
                         },
                         {
@@ -698,7 +754,7 @@
                             "column": 40,
                             "durationMicroseconds": 0,
                             "functionName": "model",
-                            "line": 428,
+                            "line": 470,
                             "message": "Cannot access value for name appCatalogModel"
                         },
                         {
@@ -706,7 +762,7 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 438,
+                            "line": 480,
                             "message": "Cannot access value for name appList"
                         },
                         {
@@ -714,7 +770,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 444,
+                            "line": 486,
                             "message": ""
                         },
                         {
@@ -722,7 +778,7 @@
                             "column": 57,
                             "durationMicroseconds": 0,
                             "functionName": "source",
-                            "line": 448,
+                            "line": 490,
                             "message": ""
                         },
                         {
@@ -730,7 +786,7 @@
                             "column": 59,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 452,
+                            "line": 494,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -738,7 +794,7 @@
                             "column": 119,
                             "durationMicroseconds": 0,
                             "functionName": "elide",
-                            "line": 452,
+                            "line": 494,
                             "message": "Could not find property \"elide\"."
                         },
                         {
@@ -746,7 +802,7 @@
                             "column": 59,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 453,
+                            "line": 495,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -754,7 +810,7 @@
                             "column": 147,
                             "durationMicroseconds": 0,
                             "functionName": "elide",
-                            "line": 453,
+                            "line": 495,
                             "message": "Could not find property \"elide\"."
                         },
                         {
@@ -762,7 +818,7 @@
                             "column": 54,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 459,
+                            "line": 501,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -770,7 +826,7 @@
                             "column": 56,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 460,
+                            "line": 502,
                             "message": "Could not find signal \"clicked\"."
                         }
                     ],

@@ -50,6 +50,8 @@ template <> constexpr inline auto RemiDockController::qt_create_metaobjectdata<q
         "dockModeChanged",
         "hoverAnimationChanged",
         "dockFrameVisibleChanged",
+        "iconThemeChanged",
+        "iconThemeRevisionChanged",
         "layerShellNeedsReconfigure",
         "setIconSize",
         "value",
@@ -62,6 +64,7 @@ template <> constexpr inline auto RemiDockController::qt_create_metaobjectdata<q
         "setDockMode",
         "setHoverAnimation",
         "setDockFrameVisible",
+        "setIconTheme",
         "save",
         "cycleEdge",
         "setEdgeFromDrag",
@@ -72,6 +75,9 @@ template <> constexpr inline auto RemiDockController::qt_create_metaobjectdata<q
         "toggleSettings",
         "toggleEditMode",
         "toggleMusicDance",
+        "availableIconThemes",
+        "iconThemeIndex",
+        "theme",
         "iconSize",
         "dockHeight",
         "autoHide",
@@ -81,7 +87,9 @@ template <> constexpr inline auto RemiDockController::qt_create_metaobjectdata<q
         "musicDanceEnabled",
         "dockMode",
         "hoverAnimation",
-        "dockFrameVisible"
+        "dockFrameVisible",
+        "iconTheme",
+        "iconThemeRevision"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -105,88 +113,106 @@ template <> constexpr inline auto RemiDockController::qt_create_metaobjectdata<q
         QtMocHelpers::SignalData<void()>(10, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'dockFrameVisibleChanged'
         QtMocHelpers::SignalData<void()>(11, 2, QMC::AccessPublic, QMetaType::Void),
-        // Signal 'layerShellNeedsReconfigure'
+        // Signal 'iconThemeChanged'
         QtMocHelpers::SignalData<void()>(12, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'iconThemeRevisionChanged'
+        QtMocHelpers::SignalData<void()>(13, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'layerShellNeedsReconfigure'
+        QtMocHelpers::SignalData<void()>(14, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'setIconSize'
-        QtMocHelpers::SlotData<void(int)>(13, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 14 },
+        QtMocHelpers::SlotData<void(int)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 16 },
         }}),
         // Slot 'setDockHeight'
-        QtMocHelpers::SlotData<void(int)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 14 },
+        QtMocHelpers::SlotData<void(int)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 16 },
         }}),
         // Slot 'setAutoHide'
-        QtMocHelpers::SlotData<void(bool)>(16, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Bool, 14 },
+        QtMocHelpers::SlotData<void(bool)>(18, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 16 },
         }}),
         // Slot 'setEdge'
-        QtMocHelpers::SlotData<void(const QString &)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 14 },
+        QtMocHelpers::SlotData<void(const QString &)>(19, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 16 },
         }}),
         // Slot 'setEditMode'
-        QtMocHelpers::SlotData<void(bool)>(18, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Bool, 14 },
+        QtMocHelpers::SlotData<void(bool)>(20, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 16 },
         }}),
         // Slot 'setSettingsVisible'
-        QtMocHelpers::SlotData<void(bool)>(19, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Bool, 14 },
+        QtMocHelpers::SlotData<void(bool)>(21, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 16 },
         }}),
         // Slot 'setMusicDanceEnabled'
-        QtMocHelpers::SlotData<void(bool)>(20, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Bool, 14 },
+        QtMocHelpers::SlotData<void(bool)>(22, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 16 },
         }}),
         // Slot 'setDockMode'
-        QtMocHelpers::SlotData<void(const QString &)>(21, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 14 },
+        QtMocHelpers::SlotData<void(const QString &)>(23, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 16 },
         }}),
         // Slot 'setHoverAnimation'
-        QtMocHelpers::SlotData<void(const QString &)>(22, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 14 },
+        QtMocHelpers::SlotData<void(const QString &)>(24, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 16 },
         }}),
         // Slot 'setDockFrameVisible'
-        QtMocHelpers::SlotData<void(bool)>(23, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Bool, 14 },
+        QtMocHelpers::SlotData<void(bool)>(25, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 16 },
+        }}),
+        // Slot 'setIconTheme'
+        QtMocHelpers::SlotData<void(const QString &)>(26, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 16 },
         }}),
         // Slot 'save'
-        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPublic, QMetaType::Void),
         // Method 'cycleEdge'
-        QtMocHelpers::MethodData<void()>(25, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::MethodData<void()>(28, 2, QMC::AccessPublic, QMetaType::Void),
         // Method 'setEdgeFromDrag'
-        QtMocHelpers::MethodData<void(qreal, qreal)>(26, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QReal, 27 }, { QMetaType::QReal, 28 },
+        QtMocHelpers::MethodData<void(qreal, qreal)>(29, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QReal, 30 }, { QMetaType::QReal, 31 },
         }}),
         // Method 'openSettings'
-        QtMocHelpers::MethodData<void()>(29, 2, QMC::AccessPublic, QMetaType::Void),
-        // Method 'closeSettings'
-        QtMocHelpers::MethodData<void()>(30, 2, QMC::AccessPublic, QMetaType::Void),
-        // Method 'toggleSettings'
-        QtMocHelpers::MethodData<void()>(31, 2, QMC::AccessPublic, QMetaType::Void),
-        // Method 'toggleEditMode'
         QtMocHelpers::MethodData<void()>(32, 2, QMC::AccessPublic, QMetaType::Void),
-        // Method 'toggleMusicDance'
+        // Method 'closeSettings'
         QtMocHelpers::MethodData<void()>(33, 2, QMC::AccessPublic, QMetaType::Void),
+        // Method 'toggleSettings'
+        QtMocHelpers::MethodData<void()>(34, 2, QMC::AccessPublic, QMetaType::Void),
+        // Method 'toggleEditMode'
+        QtMocHelpers::MethodData<void()>(35, 2, QMC::AccessPublic, QMetaType::Void),
+        // Method 'toggleMusicDance'
+        QtMocHelpers::MethodData<void()>(36, 2, QMC::AccessPublic, QMetaType::Void),
+        // Method 'availableIconThemes'
+        QtMocHelpers::MethodData<QStringList() const>(37, 2, QMC::AccessPublic, QMetaType::QStringList),
+        // Method 'iconThemeIndex'
+        QtMocHelpers::MethodData<int(const QString &) const>(38, 2, QMC::AccessPublic, QMetaType::Int, {{
+            { QMetaType::QString, 39 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
         // property 'iconSize'
-        QtMocHelpers::PropertyData<int>(34, QMetaType::Int, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 0),
+        QtMocHelpers::PropertyData<int>(40, QMetaType::Int, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 0),
         // property 'dockHeight'
-        QtMocHelpers::PropertyData<int>(35, QMetaType::Int, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 1),
+        QtMocHelpers::PropertyData<int>(41, QMetaType::Int, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 1),
         // property 'autoHide'
-        QtMocHelpers::PropertyData<bool>(36, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 2),
+        QtMocHelpers::PropertyData<bool>(42, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 2),
         // property 'edge'
-        QtMocHelpers::PropertyData<QString>(37, QMetaType::QString, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 3),
+        QtMocHelpers::PropertyData<QString>(43, QMetaType::QString, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 3),
         // property 'editMode'
-        QtMocHelpers::PropertyData<bool>(38, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 4),
+        QtMocHelpers::PropertyData<bool>(44, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 4),
         // property 'settingsVisible'
-        QtMocHelpers::PropertyData<bool>(39, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 5),
+        QtMocHelpers::PropertyData<bool>(45, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 5),
         // property 'musicDanceEnabled'
-        QtMocHelpers::PropertyData<bool>(40, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 6),
+        QtMocHelpers::PropertyData<bool>(46, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 6),
         // property 'dockMode'
-        QtMocHelpers::PropertyData<QString>(41, QMetaType::QString, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 7),
+        QtMocHelpers::PropertyData<QString>(47, QMetaType::QString, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 7),
         // property 'hoverAnimation'
-        QtMocHelpers::PropertyData<QString>(42, QMetaType::QString, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 8),
+        QtMocHelpers::PropertyData<QString>(48, QMetaType::QString, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 8),
         // property 'dockFrameVisible'
-        QtMocHelpers::PropertyData<bool>(43, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 9),
+        QtMocHelpers::PropertyData<bool>(49, QMetaType::Bool, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 9),
+        // property 'iconTheme'
+        QtMocHelpers::PropertyData<QString>(50, QMetaType::QString, QMC::DefaultPropertyFlags | QMC::Writable | QMC::StdCppSet, 10),
+        // property 'iconThemeRevision'
+        QtMocHelpers::PropertyData<int>(51, QMetaType::Int, QMC::DefaultPropertyFlags, 11),
     };
     QtMocHelpers::UintData qt_enums {
     };
@@ -218,25 +244,32 @@ void RemiDockController::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         case 7: _t->dockModeChanged(); break;
         case 8: _t->hoverAnimationChanged(); break;
         case 9: _t->dockFrameVisibleChanged(); break;
-        case 10: _t->layerShellNeedsReconfigure(); break;
-        case 11: _t->setIconSize((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
-        case 12: _t->setDockHeight((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
-        case 13: _t->setAutoHide((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
-        case 14: _t->setEdge((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 15: _t->setEditMode((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
-        case 16: _t->setSettingsVisible((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
-        case 17: _t->setMusicDanceEnabled((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
-        case 18: _t->setDockMode((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 19: _t->setHoverAnimation((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 20: _t->setDockFrameVisible((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
-        case 21: _t->save(); break;
-        case 22: _t->cycleEdge(); break;
-        case 23: _t->setEdgeFromDrag((*reinterpret_cast<std::add_pointer_t<qreal>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<qreal>>(_a[2]))); break;
-        case 24: _t->openSettings(); break;
-        case 25: _t->closeSettings(); break;
-        case 26: _t->toggleSettings(); break;
-        case 27: _t->toggleEditMode(); break;
-        case 28: _t->toggleMusicDance(); break;
+        case 10: _t->iconThemeChanged(); break;
+        case 11: _t->iconThemeRevisionChanged(); break;
+        case 12: _t->layerShellNeedsReconfigure(); break;
+        case 13: _t->setIconSize((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 14: _t->setDockHeight((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 15: _t->setAutoHide((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
+        case 16: _t->setEdge((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 17: _t->setEditMode((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
+        case 18: _t->setSettingsVisible((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
+        case 19: _t->setMusicDanceEnabled((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
+        case 20: _t->setDockMode((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 21: _t->setHoverAnimation((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 22: _t->setDockFrameVisible((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
+        case 23: _t->setIconTheme((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 24: _t->save(); break;
+        case 25: _t->cycleEdge(); break;
+        case 26: _t->setEdgeFromDrag((*reinterpret_cast<std::add_pointer_t<qreal>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<qreal>>(_a[2]))); break;
+        case 27: _t->openSettings(); break;
+        case 28: _t->closeSettings(); break;
+        case 29: _t->toggleSettings(); break;
+        case 30: _t->toggleEditMode(); break;
+        case 31: _t->toggleMusicDance(); break;
+        case 32: { QStringList _r = _t->availableIconThemes();
+            if (_a[0]) *reinterpret_cast<QStringList*>(_a[0]) = std::move(_r); }  break;
+        case 33: { int _r = _t->iconThemeIndex((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])));
+            if (_a[0]) *reinterpret_cast<int*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     }
@@ -261,7 +294,11 @@ void RemiDockController::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
             return;
         if (QtMocHelpers::indexOfMethod<void (RemiDockController::*)()>(_a, &RemiDockController::dockFrameVisibleChanged, 9))
             return;
-        if (QtMocHelpers::indexOfMethod<void (RemiDockController::*)()>(_a, &RemiDockController::layerShellNeedsReconfigure, 10))
+        if (QtMocHelpers::indexOfMethod<void (RemiDockController::*)()>(_a, &RemiDockController::iconThemeChanged, 10))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (RemiDockController::*)()>(_a, &RemiDockController::iconThemeRevisionChanged, 11))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (RemiDockController::*)()>(_a, &RemiDockController::layerShellNeedsReconfigure, 12))
             return;
     }
     if (_c == QMetaObject::ReadProperty) {
@@ -277,6 +314,8 @@ void RemiDockController::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         case 7: *reinterpret_cast<QString*>(_v) = _t->dockMode(); break;
         case 8: *reinterpret_cast<QString*>(_v) = _t->hoverAnimation(); break;
         case 9: *reinterpret_cast<bool*>(_v) = _t->dockFrameVisible(); break;
+        case 10: *reinterpret_cast<QString*>(_v) = _t->iconTheme(); break;
+        case 11: *reinterpret_cast<int*>(_v) = _t->iconThemeRevision(); break;
         default: break;
         }
     }
@@ -293,6 +332,7 @@ void RemiDockController::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         case 7: _t->setDockMode(*reinterpret_cast<QString*>(_v)); break;
         case 8: _t->setHoverAnimation(*reinterpret_cast<QString*>(_v)); break;
         case 9: _t->setDockFrameVisible(*reinterpret_cast<bool*>(_v)); break;
+        case 10: _t->setIconTheme(*reinterpret_cast<QString*>(_v)); break;
         default: break;
         }
     }
@@ -317,20 +357,20 @@ int RemiDockController::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 29)
+        if (_id < 34)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 29;
+        _id -= 34;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 29)
+        if (_id < 34)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 29;
+        _id -= 34;
     }
     if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty
             || _c == QMetaObject::RegisterPropertyMetaType) {
         qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 12;
     }
     return _id;
 }
@@ -396,8 +436,20 @@ void RemiDockController::dockFrameVisibleChanged()
 }
 
 // SIGNAL 10
-void RemiDockController::layerShellNeedsReconfigure()
+void RemiDockController::iconThemeChanged()
 {
     QMetaObject::activate(this, &staticMetaObject, 10, nullptr);
+}
+
+// SIGNAL 11
+void RemiDockController::iconThemeRevisionChanged()
+{
+    QMetaObject::activate(this, &staticMetaObject, 11, nullptr);
+}
+
+// SIGNAL 12
+void RemiDockController::layerShellNeedsReconfigure()
+{
+    QMetaObject::activate(this, &staticMetaObject, 12, nullptr);
 }
 QT_WARNING_POP

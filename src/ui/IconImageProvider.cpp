@@ -16,6 +16,14 @@ QPixmap IconImageProvider::requestPixmap(const QString &id, QSize *size, const Q
     const int height = requestedSize.height() > 0 ? requestedSize.height() : 64;
 
     QString iconId = id;
+
+    const int revisionSeparator = iconId.indexOf(QLatin1Char('/'));
+    if (revisionSeparator > 0) {
+        bool revisionOk = false;
+        iconId.left(revisionSeparator).toInt(&revisionOk);
+        if (revisionOk)
+            iconId = iconId.mid(revisionSeparator + 1);
+    }
     if (iconId.startsWith(QStringLiteral("file://"))) {
         const QUrl url(iconId);
         if (url.isLocalFile())

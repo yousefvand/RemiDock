@@ -1,2 +1,0 @@
-/usr/bin/RemiDock
-/usr/share/applications/org.remisa.RemiDock.desktop

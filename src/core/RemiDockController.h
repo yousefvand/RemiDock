@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QStringList>
 
 class RemiDockController : public QObject
 {
@@ -17,6 +18,8 @@ class RemiDockController : public QObject
     Q_PROPERTY(QString dockMode READ dockMode WRITE setDockMode NOTIFY dockModeChanged)
     Q_PROPERTY(QString hoverAnimation READ hoverAnimation WRITE setHoverAnimation NOTIFY hoverAnimationChanged)
     Q_PROPERTY(bool dockFrameVisible READ dockFrameVisible WRITE setDockFrameVisible NOTIFY dockFrameVisibleChanged)
+    Q_PROPERTY(QString iconTheme READ iconTheme WRITE setIconTheme NOTIFY iconThemeChanged)
+    Q_PROPERTY(int iconThemeRevision READ iconThemeRevision NOTIFY iconThemeRevisionChanged)
 
 public:
     explicit RemiDockController(QObject *parent = nullptr);
@@ -31,6 +34,8 @@ public:
     QString dockMode() const;
     QString hoverAnimation() const;
     bool dockFrameVisible() const;
+    QString iconTheme() const;
+    int iconThemeRevision() const;
 
     Q_INVOKABLE void cycleEdge();
     Q_INVOKABLE void setEdgeFromDrag(qreal dx, qreal dy);
@@ -39,6 +44,8 @@ public:
     Q_INVOKABLE void toggleSettings();
     Q_INVOKABLE void toggleEditMode();
     Q_INVOKABLE void toggleMusicDance();
+    Q_INVOKABLE QStringList availableIconThemes() const;
+    Q_INVOKABLE int iconThemeIndex(const QString &theme) const;
 
 public slots:
     void setIconSize(int value);
@@ -51,6 +58,7 @@ public slots:
     void setDockMode(const QString &value);
     void setHoverAnimation(const QString &value);
     void setDockFrameVisible(bool value);
+    void setIconTheme(const QString &value);
     void save();
 
 signals:
@@ -64,12 +72,18 @@ signals:
     void dockModeChanged();
     void hoverAnimationChanged();
     void dockFrameVisibleChanged();
+    void iconThemeChanged();
+    void iconThemeRevisionChanged();
     void layerShellNeedsReconfigure();
 
 private:
     bool isValidEdge(const QString &value) const;
     bool isValidDockMode(const QString &value) const;
     bool isValidHoverAnimation(const QString &value) const;
+    bool isSystemIconTheme(const QString &value) const;
+    QStringList iconThemeSearchPaths() const;
+    QString detectSystemIconTheme() const;
+    void applyIconTheme();
 
     QSettings m_settings;
     int m_iconSize = 48;
@@ -82,4 +96,7 @@ private:
     QString m_dockMode = "always";
     QString m_hoverAnimation = "simple";
     bool m_dockFrameVisible = false;
+    QString m_iconTheme = QStringLiteral("System");
+    QString m_systemIconTheme;
+    int m_iconThemeRevision = 0;
 };

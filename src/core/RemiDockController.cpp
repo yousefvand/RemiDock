@@ -2,6 +2,15 @@
 
 #include <QtMath>
 
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QIcon>
+#include <QSet>
+#include <QStandardPaths>
+
+#include <algorithm>
+
 RemiDockController::RemiDockController(QObject *parent)
     : QObject(parent),
       m_settings("remisa", "RemiDock")
@@ -14,6 +23,13 @@ RemiDockController::RemiDockController(QObject *parent)
     m_dockMode = m_settings.value("Dock/dockMode", "always").toString();
     m_hoverAnimation = m_settings.value("Dock/hoverAnimation", "simple").toString();
     m_dockFrameVisible = m_settings.value("Dock/frameVisible", false).toBool();
+    m_systemIconTheme = detectSystemIconTheme();
+    m_iconTheme = m_settings.value("Icons/theme", QStringLiteral("System")).toString().trimmed();
+
+    if (m_iconTheme.isEmpty() || m_iconTheme.compare(QStringLiteral("system"), Qt::CaseInsensitive) == 0)
+        m_iconTheme = QStringLiteral("System");
+
+    applyIconTheme();
 
     if (!isValidEdge(m_edge))
         m_edge = "bottom";
@@ -35,6 +51,8 @@ bool RemiDockController::musicDanceEnabled() const { return m_musicDanceEnabled;
 QString RemiDockController::dockMode() const { return m_dockMode; }
 QString RemiDockController::hoverAnimation() const { return m_hoverAnimation; }
 bool RemiDockController::dockFrameVisible() const { return m_dockFrameVisible; }
+QString RemiDockController::iconTheme() const { return m_iconTheme; }
+int RemiDockController::iconThemeRevision() const { return m_iconThemeRevision; }
 
 bool RemiDockController::isValidEdge(const QString &value) const
 {
@@ -49,6 +67,79 @@ bool RemiDockController::isValidDockMode(const QString &value) const
 bool RemiDockController::isValidHoverAnimation(const QString &value) const
 {
     return value == "simple" || value == "zoom" || value == "fire" || value == "fade";
+}
+
+bool RemiDockController::isSystemIconTheme(const QString &value) const
+{
+    return value.trimmed().isEmpty()
+        || value.compare(QStringLiteral("system"), Qt::CaseInsensitive) == 0;
+}
+
+QStringList RemiDockController::iconThemeSearchPaths() const
+{
+    QStringList iconDirs = QIcon::themeSearchPaths();
+
+    const QStringList dataLocations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    for (const QString &dataLocation : dataLocations) {
+        iconDirs << dataLocation + QStringLiteral("/icons");
+    }
+
+    iconDirs << QDir::homePath() + QStringLiteral("/.icons");
+    iconDirs << QStringLiteral("/usr/share/icons");
+    iconDirs << QStringLiteral("/usr/local/share/icons");
+
+    QStringList cleaned;
+    QSet<QString> seen;
+    for (const QString &path : iconDirs) {
+        const QString absolutePath = QDir(path).absolutePath();
+        const QString key = absolutePath.toLower();
+        if (!QDir(absolutePath).exists() || seen.contains(key))
+            continue;
+        seen.insert(key);
+        cleaned << absolutePath;
+    }
+
+    return cleaned;
+}
+
+QString RemiDockController::detectSystemIconTheme() const
+{
+    const QString qtTheme = QIcon::themeName().trimmed();
+    if (!qtTheme.isEmpty() && qtTheme.compare(QStringLiteral("hicolor"), Qt::CaseInsensitive) != 0)
+        return qtTheme;
+
+    const QString kdeGlobalsPath = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation)
+        + QStringLiteral("/kdeglobals");
+
+    QSettings kdeGlobals(kdeGlobalsPath, QSettings::IniFormat);
+    kdeGlobals.beginGroup(QStringLiteral("Icons"));
+    const QString kdeTheme = kdeGlobals.value(QStringLiteral("Theme")).toString().trimmed();
+    kdeGlobals.endGroup();
+
+    if (!kdeTheme.isEmpty())
+        return kdeTheme;
+
+    return qtTheme.isEmpty() ? QStringLiteral("hicolor") : qtTheme;
+}
+
+void RemiDockController::applyIconTheme()
+{
+    const QStringList searchPaths = iconThemeSearchPaths();
+    if (!searchPaths.isEmpty())
+        QIcon::setThemeSearchPaths(searchPaths);
+
+    // hicolor is the freedesktop base fallback. Many third-party themes only
+    // contain part of the icon set and rely on hicolor/parent themes for the rest.
+    QIcon::setFallbackThemeName(QStringLiteral("hicolor"));
+
+    if (isSystemIconTheme(m_iconTheme)) {
+        m_systemIconTheme = detectSystemIconTheme();
+        if (!m_systemIconTheme.isEmpty())
+            QIcon::setThemeName(m_systemIconTheme);
+        return;
+    }
+
+    QIcon::setThemeName(m_iconTheme);
 }
 
 void RemiDockController::setIconSize(int value)
@@ -167,6 +258,76 @@ void RemiDockController::setDockFrameVisible(bool value)
     emit dockFrameVisibleChanged();
 }
 
+void RemiDockController::setIconTheme(const QString &value)
+{
+    QString cleaned = value.trimmed();
+
+    if (isSystemIconTheme(cleaned))
+        cleaned = QStringLiteral("System");
+
+    if (m_iconTheme == cleaned)
+        return;
+
+    m_iconTheme = cleaned;
+    applyIconTheme();
+
+    save();
+    ++m_iconThemeRevision;
+    emit iconThemeChanged();
+    emit iconThemeRevisionChanged();
+}
+
+QStringList RemiDockController::availableIconThemes() const
+{
+    const QStringList iconDirs = iconThemeSearchPaths();
+
+    QSet<QString> seen;
+    QStringList themes;
+
+    seen.insert(QStringLiteral("system"));
+
+    for (const QString &iconDirPath : iconDirs) {
+        QDir iconDir(iconDirPath);
+
+        if (!iconDir.exists())
+            continue;
+
+        const QFileInfoList entries = iconDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+
+        for (const QFileInfo &entry : entries) {
+            const QString name = entry.fileName();
+            const QString indexThemePath = entry.absoluteFilePath() + QStringLiteral("/index.theme");
+
+            if (!QFile::exists(indexThemePath))
+                continue;
+
+            const QString key = name.toLower();
+            if (seen.contains(key))
+                continue;
+
+            seen.insert(key);
+            themes.append(name);
+        }
+    }
+
+    themes.sort(Qt::CaseInsensitive);
+    themes.prepend(QStringLiteral("System"));
+    return themes;
+}
+
+int RemiDockController::iconThemeIndex(const QString &theme) const
+{
+    const QStringList themes = availableIconThemes();
+    const QString wanted = isSystemIconTheme(theme) ? QStringLiteral("System") : theme.trimmed();
+
+    for (int i = 0; i < themes.size(); ++i) {
+        if (themes.at(i).compare(wanted, Qt::CaseInsensitive) == 0)
+            return i;
+    }
+
+    return 0;
+}
+
 void RemiDockController::cycleEdge()
 {
     if (m_edge == "bottom")
@@ -227,4 +388,5 @@ void RemiDockController::save()
     m_settings.setValue("Dock/dockMode", m_dockMode);
     m_settings.setValue("Dock/hoverAnimation", m_hoverAnimation);
     m_settings.setValue("Dock/frameVisible", m_dockFrameVisible);
+    m_settings.setValue("Icons/theme", m_iconTheme);
 }

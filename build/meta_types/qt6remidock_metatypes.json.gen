@@ -403,12 +403,12 @@
         "classes": [
             {
                 "className": "RemiDockController",
-                "lineNumber": 6,
+                "lineNumber": 7,
                 "methods": [
                     {
                         "access": "public",
-                        "index": 22,
-                        "lineNumber": 35,
+                        "index": 25,
+                        "lineNumber": 40,
                         "name": "cycleEdge",
                         "returnType": "void"
                     },
@@ -424,45 +424,67 @@
                                 "type": "qreal"
                             }
                         ],
-                        "index": 23,
-                        "lineNumber": 36,
+                        "index": 26,
+                        "lineNumber": 41,
                         "name": "setEdgeFromDrag",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
-                        "index": 24,
-                        "lineNumber": 37,
+                        "index": 27,
+                        "lineNumber": 42,
                         "name": "openSettings",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
-                        "index": 25,
-                        "lineNumber": 38,
+                        "index": 28,
+                        "lineNumber": 43,
                         "name": "closeSettings",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
-                        "index": 26,
-                        "lineNumber": 39,
+                        "index": 29,
+                        "lineNumber": 44,
                         "name": "toggleSettings",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
-                        "index": 27,
-                        "lineNumber": 40,
+                        "index": 30,
+                        "lineNumber": 45,
                         "name": "toggleEditMode",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
-                        "index": 28,
-                        "lineNumber": 41,
+                        "index": 31,
+                        "lineNumber": 46,
                         "name": "toggleMusicDance",
                         "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 32,
+                        "isConst": true,
+                        "lineNumber": 47,
+                        "name": "availableIconThemes",
+                        "returnType": "QStringList"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "theme",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 33,
+                        "isConst": true,
+                        "lineNumber": 48,
+                        "name": "iconThemeIndex",
+                        "returnType": "int"
                     }
                 ],
                 "object": true,
@@ -472,7 +494,7 @@
                         "designable": true,
                         "final": false,
                         "index": 0,
-                        "lineNumber": 10,
+                        "lineNumber": 11,
                         "name": "iconSize",
                         "notify": "iconSizeChanged",
                         "override": false,
@@ -490,7 +512,7 @@
                         "designable": true,
                         "final": false,
                         "index": 1,
-                        "lineNumber": 11,
+                        "lineNumber": 12,
                         "name": "dockHeight",
                         "notify": "dockHeightChanged",
                         "override": false,
@@ -508,7 +530,7 @@
                         "designable": true,
                         "final": false,
                         "index": 2,
-                        "lineNumber": 12,
+                        "lineNumber": 13,
                         "name": "autoHide",
                         "notify": "autoHideChanged",
                         "override": false,
@@ -526,7 +548,7 @@
                         "designable": true,
                         "final": false,
                         "index": 3,
-                        "lineNumber": 13,
+                        "lineNumber": 14,
                         "name": "edge",
                         "notify": "edgeChanged",
                         "override": false,
@@ -544,7 +566,7 @@
                         "designable": true,
                         "final": false,
                         "index": 4,
-                        "lineNumber": 14,
+                        "lineNumber": 15,
                         "name": "editMode",
                         "notify": "editModeChanged",
                         "override": false,
@@ -562,7 +584,7 @@
                         "designable": true,
                         "final": false,
                         "index": 5,
-                        "lineNumber": 15,
+                        "lineNumber": 16,
                         "name": "settingsVisible",
                         "notify": "settingsVisibleChanged",
                         "override": false,
@@ -580,7 +602,7 @@
                         "designable": true,
                         "final": false,
                         "index": 6,
-                        "lineNumber": 16,
+                        "lineNumber": 17,
                         "name": "musicDanceEnabled",
                         "notify": "musicDanceEnabledChanged",
                         "override": false,
@@ -598,7 +620,7 @@
                         "designable": true,
                         "final": false,
                         "index": 7,
-                        "lineNumber": 17,
+                        "lineNumber": 18,
                         "name": "dockMode",
                         "notify": "dockModeChanged",
                         "override": false,
@@ -616,7 +638,7 @@
                         "designable": true,
                         "final": false,
                         "index": 8,
-                        "lineNumber": 18,
+                        "lineNumber": 19,
                         "name": "hoverAnimation",
                         "notify": "hoverAnimationChanged",
                         "override": false,
@@ -634,7 +656,7 @@
                         "designable": true,
                         "final": false,
                         "index": 9,
-                        "lineNumber": 19,
+                        "lineNumber": 20,
                         "name": "dockFrameVisible",
                         "notify": "dockFrameVisibleChanged",
                         "override": false,
@@ -646,6 +668,41 @@
                         "user": false,
                         "virtual": false,
                         "write": "setDockFrameVisible"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 10,
+                        "lineNumber": 21,
+                        "name": "iconTheme",
+                        "notify": "iconThemeChanged",
+                        "override": false,
+                        "read": "iconTheme",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "virtual": false,
+                        "write": "setIconTheme"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 11,
+                        "lineNumber": 22,
+                        "name": "iconThemeRevision",
+                        "notify": "iconThemeRevisionChanged",
+                        "override": false,
+                        "read": "iconThemeRevision",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false,
+                        "virtual": false
                     }
                 ],
                 "qualifiedClassName": "RemiDockController",
@@ -653,77 +710,91 @@
                     {
                         "access": "public",
                         "index": 0,
-                        "lineNumber": 57,
+                        "lineNumber": 65,
                         "name": "iconSizeChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 1,
-                        "lineNumber": 58,
+                        "lineNumber": 66,
                         "name": "dockHeightChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 2,
-                        "lineNumber": 59,
+                        "lineNumber": 67,
                         "name": "autoHideChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 3,
-                        "lineNumber": 60,
+                        "lineNumber": 68,
                         "name": "edgeChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 4,
-                        "lineNumber": 61,
+                        "lineNumber": 69,
                         "name": "editModeChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 5,
-                        "lineNumber": 62,
+                        "lineNumber": 70,
                         "name": "settingsVisibleChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 6,
-                        "lineNumber": 63,
+                        "lineNumber": 71,
                         "name": "musicDanceEnabledChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 7,
-                        "lineNumber": 64,
+                        "lineNumber": 72,
                         "name": "dockModeChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 8,
-                        "lineNumber": 65,
+                        "lineNumber": 73,
                         "name": "hoverAnimationChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 9,
-                        "lineNumber": 66,
+                        "lineNumber": 74,
                         "name": "dockFrameVisibleChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 10,
-                        "lineNumber": 67,
+                        "lineNumber": 75,
+                        "name": "iconThemeChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 11,
+                        "lineNumber": 76,
+                        "name": "iconThemeRevisionChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 12,
+                        "lineNumber": 77,
                         "name": "layerShellNeedsReconfigure",
                         "returnType": "void"
                     }
@@ -737,8 +808,8 @@
                                 "type": "int"
                             }
                         ],
-                        "index": 11,
-                        "lineNumber": 44,
+                        "index": 13,
+                        "lineNumber": 51,
                         "name": "setIconSize",
                         "returnType": "void"
                     },
@@ -750,8 +821,8 @@
                                 "type": "int"
                             }
                         ],
-                        "index": 12,
-                        "lineNumber": 45,
+                        "index": 14,
+                        "lineNumber": 52,
                         "name": "setDockHeight",
                         "returnType": "void"
                     },
@@ -763,8 +834,8 @@
                                 "type": "bool"
                             }
                         ],
-                        "index": 13,
-                        "lineNumber": 46,
+                        "index": 15,
+                        "lineNumber": 53,
                         "name": "setAutoHide",
                         "returnType": "void"
                     },
@@ -776,8 +847,8 @@
                                 "type": "QString"
                             }
                         ],
-                        "index": 14,
-                        "lineNumber": 47,
+                        "index": 16,
+                        "lineNumber": 54,
                         "name": "setEdge",
                         "returnType": "void"
                     },
@@ -789,8 +860,8 @@
                                 "type": "bool"
                             }
                         ],
-                        "index": 15,
-                        "lineNumber": 48,
+                        "index": 17,
+                        "lineNumber": 55,
                         "name": "setEditMode",
                         "returnType": "void"
                     },
@@ -802,8 +873,8 @@
                                 "type": "bool"
                             }
                         ],
-                        "index": 16,
-                        "lineNumber": 49,
+                        "index": 18,
+                        "lineNumber": 56,
                         "name": "setSettingsVisible",
                         "returnType": "void"
                     },
@@ -815,8 +886,8 @@
                                 "type": "bool"
                             }
                         ],
-                        "index": 17,
-                        "lineNumber": 50,
+                        "index": 19,
+                        "lineNumber": 57,
                         "name": "setMusicDanceEnabled",
                         "returnType": "void"
                     },
@@ -828,8 +899,8 @@
                                 "type": "QString"
                             }
                         ],
-                        "index": 18,
-                        "lineNumber": 51,
+                        "index": 20,
+                        "lineNumber": 58,
                         "name": "setDockMode",
                         "returnType": "void"
                     },
@@ -841,8 +912,8 @@
                                 "type": "QString"
                             }
                         ],
-                        "index": 19,
-                        "lineNumber": 52,
+                        "index": 21,
+                        "lineNumber": 59,
                         "name": "setHoverAnimation",
                         "returnType": "void"
                     },
@@ -854,15 +925,28 @@
                                 "type": "bool"
                             }
                         ],
-                        "index": 20,
-                        "lineNumber": 53,
+                        "index": 22,
+                        "lineNumber": 60,
                         "name": "setDockFrameVisible",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
-                        "index": 21,
-                        "lineNumber": 54,
+                        "arguments": [
+                            {
+                                "name": "value",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 23,
+                        "lineNumber": 61,
+                        "name": "setIconTheme",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 24,
+                        "lineNumber": 62,
                         "name": "save",
                         "returnType": "void"
                     }

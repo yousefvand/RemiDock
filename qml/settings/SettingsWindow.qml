@@ -119,7 +119,7 @@ Window {
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 188
+                Layout.preferredHeight: 226
                 color: "transparent"
                 clip: false
 
@@ -198,6 +198,48 @@ Window {
 
                         Label {
                             text: "Drop new QML plugins into qml/hoverAnimations and add them to CMake/settings."
+                            color: "#aaaaaa"
+                            font.pixelSize: 10
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                        }
+                    }
+
+
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 10
+
+                        Label {
+                            text: "Icon theme:"
+                            color: "white"
+                            Layout.preferredWidth: 130
+                        }
+
+                        ComboBox {
+                            id: iconThemeCombo
+                            Layout.preferredWidth: 250
+                            editable: false
+                            model: dockController.availableIconThemes()
+
+                            function syncToController() {
+                                currentIndex = dockController.iconThemeIndex(dockController.iconTheme)
+                            }
+
+                            Component.onCompleted: syncToController()
+                            onActivated: dockController.iconTheme = currentText
+
+                            Connections {
+                                target: dockController
+                                function onIconThemeChanged() {
+                                    iconThemeCombo.syncToController()
+                                }
+                            }
+                        }
+
+                        Label {
+                            text: "System uses your current Plasma/KDE icon theme. Select another installed theme to override it only for RemiDock."
                             color: "#aaaaaa"
                             font.pixelSize: 10
                             Layout.fillWidth: true
