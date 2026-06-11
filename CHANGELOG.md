@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.3.2
+
+- Fixed AUR to run RemiDock immediately.
+- Fixed color theme to work with all icon themes.
+
 ## 0.3.1
 
 - Updated aur.sh

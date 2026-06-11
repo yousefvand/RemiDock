@@ -130,7 +130,7 @@ Run:
 For Archlinux users:
 
 ```bash
-yay -S RemiDock
+yay -S remidock
 ```
 
 ---

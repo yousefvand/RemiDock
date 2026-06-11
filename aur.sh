@@ -26,7 +26,7 @@ set -Eeuo pipefail
 #   NONINTERACTIVE=1 ./aur.sh
 
 PKGNAME="${PKGNAME:-remidock}"
-VERSION="${VERSION:-0.3.1}"
+VERSION="${VERSION:-0.3.2}"
 GITHUB_REPO="${GITHUB_REPO:-https://github.com/yousefvand/RemiDock.git}"
 BINARY_NAME="${BINARY_NAME:-RemiDock}"
 APP_ID="${APP_ID:-org.remisa.RemiDock}"
@@ -176,6 +176,11 @@ X-GNOME-Autostart-enabled=true
 EOF
     fi
 
+    grep -q '^X-GNOME-Autostart-enabled=' "$HOME/.config/autostart/$APP_ID.desktop" || \
+        printf 'X-GNOME-Autostart-enabled=true\n' >> "$HOME/.config/autostart/$APP_ID.desktop"
+    grep -q '^X-KDE-autostart-after=' "$HOME/.config/autostart/$APP_ID.desktop" || \
+        printf 'X-KDE-autostart-after=panel\n' >> "$HOME/.config/autostart/$APP_ID.desktop"
+
     chmod 644 "$HOME/.config/autostart/$APP_ID.desktop"
 }
 
@@ -289,6 +294,17 @@ package() {
   if [[ -f "\$pkgdir/usr/share/applications/$APP_ID.desktop" ]]; then
     sed -i 's/^Icon=.*/Icon=remidock/' "\$pkgdir/usr/share/applications/$APP_ID.desktop"
   fi
+
+  # Install a global XDG autostart entry so RemiDock starts automatically
+  # for users on their next Plasma/KDE login after installing from AUR.
+  if [[ -f "$src_dir/data/$APP_ID.desktop" ]]; then
+    install -Dm644 "$src_dir/data/$APP_ID.desktop" "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop"
+    sed -i 's/^Icon=.*/Icon=remidock/' "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop"
+    grep -q '^X-GNOME-Autostart-enabled=' "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop" || \
+      printf 'X-GNOME-Autostart-enabled=true\n' >> "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop"
+    grep -q '^X-KDE-autostart-after=' "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop" || \
+      printf 'X-KDE-autostart-after=panel\n' >> "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop"
+  fi
 }
 EOF
 }
@@ -298,14 +314,27 @@ prepare_aur_repo() {
     mkdir -p "$AUR_WORKDIR"
 
     if [[ -d "$AUR_REPO_DIR/.git" ]]; then
-        git -C "$AUR_REPO_DIR" pull --rebase
+        log "Synchronising existing local AUR repository with origin/master"
+        git -C "$AUR_REPO_DIR" fetch origin master
+        git -C "$AUR_REPO_DIR" checkout master
+        git -C "$AUR_REPO_DIR" rebase origin/master
+        return
+    fi
+
+    if git clone "ssh://aur@aur.archlinux.org/$PKGNAME.git" "$AUR_REPO_DIR"; then
+        return
+    fi
+
+    warn "AUR clone failed. Trying to initialise from remote manually."
+    mkdir -p "$AUR_REPO_DIR"
+    git -C "$AUR_REPO_DIR" init
+    git -C "$AUR_REPO_DIR" remote add origin "ssh://aur@aur.archlinux.org/$PKGNAME.git"
+
+    if git -C "$AUR_REPO_DIR" fetch origin master; then
+        git -C "$AUR_REPO_DIR" checkout -B master origin/master
     else
-        if ! git clone "ssh://aur@aur.archlinux.org/$PKGNAME.git" "$AUR_REPO_DIR"; then
-            warn "AUR clone failed. Trying to initialise a new local AUR repository."
-            mkdir -p "$AUR_REPO_DIR"
-            git -C "$AUR_REPO_DIR" init
-            git -C "$AUR_REPO_DIR" remote add origin "ssh://aur@aur.archlinux.org/$PKGNAME.git"
-        fi
+        warn "Could not fetch origin/master. Continuing as a new AUR repository."
+        git -C "$AUR_REPO_DIR" checkout -B master
     fi
 }
 
@@ -358,7 +387,12 @@ publish_aur_package() {
         git commit -m "Update $PKGNAME to $VERSION-$PKGREL"
 
         if [[ "$NONINTERACTIVE" == "1" ]] || confirm "Push $PKGNAME $VERSION-$PKGREL to the AUR now?"; then
-            git push origin master
+            if ! git push origin master; then
+                warn "AUR push was rejected. Fetching remote changes, rebasing, and trying once more."
+                git fetch origin master
+                git rebase origin/master
+                git push origin master
+            fi
         else
             if [[ "$CLEAN_AUR_WORKDIR" == "1" ]]; then
                 warn "AUR push cancelled. Temporary files will be removed. Rerun with AUR_WORKDIR=/path/to/keep if you want to keep them."
