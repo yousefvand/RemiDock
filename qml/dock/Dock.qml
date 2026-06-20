@@ -209,6 +209,7 @@ Item {
                             appName: name
                             appIcon: iconName
                             appDesktopFile: desktopFile
+                            appIndex: index
                             running: running
                             active: active
                             verticalDock: false
@@ -315,6 +316,7 @@ Item {
                             appName: name
                             appIcon: iconName
                             appDesktopFile: desktopFile
+                            appIndex: index
                             running: running
                             active: active
                             verticalDock: true

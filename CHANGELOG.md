@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.3
+
+- Now RemiDock reads .desktop file Actions=..., where Chrome/Chromium store “New Incognito Window”.
+
 ## 0.3.2
 
 - Fixed AUR to run RemiDock immediately.

@@ -8,6 +8,7 @@ Item {
     property string appName: ""
     property string appIcon: "application-x-executable"
     property string appDesktopFile: ""
+    property int appIndex: -1
     property bool verticalDock: false
     property string dockEdge: "bottom"
     property bool dancing: false
@@ -178,8 +179,7 @@ Item {
         anchors.centerIn: parent
         width: dockController.iconSize
         height: dockController.iconSize
-        source: "image://icon/" + dockController.iconThemeRevision + "/" + item.appIcon
-        cache: false
+        source: "image://icon/" + item.appIcon
         smooth: true
         mipmap: true
         transformOrigin: Item.Center
@@ -246,7 +246,23 @@ Item {
 
     Menu {
         id: menu
+        property var desktopActions: []
+
+        onAboutToShow: desktopActions = pinnedAppsModel.desktopActions(item.appIndex)
+
         MenuItem { text: "Launch " + appName; enabled: appDesktopFile !== ""; onTriggered: item.launchRequested() }
+
+        MenuSeparator { visible: menu.desktopActions.length > 0 }
+
+        Repeater {
+            model: menu.desktopActions
+
+            MenuItem {
+                text: modelData.name
+                onTriggered: pinnedAppsModel.launchDesktopAction(item.appIndex, modelData.id)
+            }
+        }
+
         MenuSeparator {}
         MenuItem { text: "Remove from RemiDock"; onTriggered: item.removeRequested() }
     }

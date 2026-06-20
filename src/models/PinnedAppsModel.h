@@ -6,6 +6,7 @@
 #include <QSettings>
 #include <QString>
 #include <QStringList>
+#include <QVariantList>
 
 struct PinnedApp
 {
@@ -45,6 +46,8 @@ public:
     int itemCount() const;
 
     Q_INVOKABLE void launch(int index);
+    Q_INVOKABLE QVariantList desktopActions(int index) const;
+    Q_INVOKABLE void launchDesktopAction(int index, const QString &actionId);
 
     Q_INVOKABLE bool addDesktopFile(const QString &desktopFile);
     Q_INVOKABLE bool addCustomApplication(const QString &executablePath, const QString &iconPath);
@@ -92,6 +95,7 @@ private:
     PinnedApp deserializeCustomApplication(const QString &entry) const;
     QString findDesktopFilePath(const QString &desktopFile) const;
     QString cleanExec(QString exec) const;
+    QString commandForDesktopAction(const QString &desktopFile, const QString &actionId) const;
     QStringList runningDetectionKeys(const PinnedApp &app) const;
 
     QList<PinnedApp> m_apps;

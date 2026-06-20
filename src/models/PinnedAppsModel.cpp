@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <QUrl>
 #include <QVariant>
+#include <QVariantMap>
 
 namespace {
 QString normalizedProcessName(const QString &value)
@@ -128,6 +129,93 @@ constexpr int kOuterPadding = 10;
 constexpr int kHandleGap = 8;
 constexpr int kItemSpacing = 8;
 constexpr int kScreenEdgePadding = 48;
+
+struct DesktopActionInfo
+{
+    QString id;
+    QString name;
+    QString icon;
+    QString exec;
+};
+
+QString desktopEntryValue(const QString &line, const QString &key)
+{
+    const QString prefix = key + QStringLiteral("=");
+    if (!line.startsWith(prefix))
+        return {};
+    return line.mid(prefix.size()).trimmed();
+}
+
+QList<DesktopActionInfo> readDesktopActionsFromFile(const QString &path)
+{
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return {};
+
+    QStringList actionOrder;
+    QHash<QString, DesktopActionInfo> actions;
+    QString currentActionId;
+    bool inDesktopEntry = false;
+
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        const QString line = in.readLine().trimmed();
+
+        if (line.isEmpty() || line.startsWith(QLatin1Char('#')))
+            continue;
+
+        if (line.startsWith(QLatin1Char('[')) && line.endsWith(QLatin1Char(']'))) {
+            inDesktopEntry = (line == QStringLiteral("[Desktop Entry]"));
+            currentActionId.clear();
+
+            const QString prefix = QStringLiteral("[Desktop Action ");
+            if (line.startsWith(prefix)) {
+                currentActionId = line.mid(prefix.size(), line.size() - prefix.size() - 1).trimmed();
+                if (!currentActionId.isEmpty()) {
+                    DesktopActionInfo info;
+                    info.id = currentActionId;
+                    actions.insert(currentActionId, info);
+                }
+            }
+            continue;
+        }
+
+        if (inDesktopEntry) {
+            const QString value = desktopEntryValue(line, QStringLiteral("Actions"));
+            if (!value.isEmpty()) {
+                const QStringList ids = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+                for (const QString &rawId : ids) {
+                    const QString id = rawId.trimmed();
+                    if (!id.isEmpty() && !actionOrder.contains(id))
+                        actionOrder << id;
+                }
+            }
+            continue;
+        }
+
+        if (currentActionId.isEmpty())
+            continue;
+
+        DesktopActionInfo info = actions.value(currentActionId);
+        if (line.startsWith(QStringLiteral("Name=")))
+            info.name = line.mid(QStringLiteral("Name=").size()).trimmed();
+        else if (line.startsWith(QStringLiteral("Icon=")))
+            info.icon = line.mid(QStringLiteral("Icon=").size()).trimmed();
+        else if (line.startsWith(QStringLiteral("Exec=")))
+            info.exec = line.mid(QStringLiteral("Exec=").size()).trimmed();
+        actions.insert(currentActionId, info);
+    }
+
+    QList<DesktopActionInfo> result;
+    for (const QString &id : actionOrder) {
+        const DesktopActionInfo info = actions.value(id);
+        if (!info.id.isEmpty() && !info.name.isEmpty() && !info.exec.isEmpty())
+            result.append(info);
+    }
+
+    return result;
+}
+
 }
 
 PinnedAppsModel::PinnedAppsModel(QObject *parent)
@@ -236,6 +324,51 @@ void PinnedAppsModel::launch(int index)
 
     QTimer::singleShot(1200, this, &PinnedAppsModel::refreshRunningState);
 }
+
+QVariantList PinnedAppsModel::desktopActions(int index) const
+{
+    QVariantList list;
+
+    if (index < 0 || index >= m_apps.size())
+        return list;
+
+    const PinnedApp &app = m_apps.at(index);
+    if (app.type != QStringLiteral("app") || app.desktopFile.startsWith(QStringLiteral("custom:")))
+        return list;
+
+    const QString path = findDesktopFilePath(app.desktopFile);
+    if (path.isEmpty())
+        return list;
+
+    const QList<DesktopActionInfo> actions = readDesktopActionsFromFile(path);
+    for (const DesktopActionInfo &action : actions) {
+        QVariantMap entry;
+        entry.insert(QStringLiteral("id"), action.id);
+        entry.insert(QStringLiteral("name"), action.name);
+        entry.insert(QStringLiteral("icon"), action.icon);
+        list.append(entry);
+    }
+
+    return list;
+}
+
+void PinnedAppsModel::launchDesktopAction(int index, const QString &actionId)
+{
+    if (index < 0 || index >= m_apps.size())
+        return;
+
+    const PinnedApp &app = m_apps.at(index);
+    if (app.type != QStringLiteral("app") || app.desktopFile.startsWith(QStringLiteral("custom:")))
+        return;
+
+    const QString command = cleanExec(commandForDesktopAction(app.desktopFile, actionId));
+    if (command.isEmpty())
+        return;
+
+    startDetachedWithApplicationEnvironment(QStringLiteral("/bin/sh"), {QStringLiteral("-lc"), command});
+    QTimer::singleShot(1200, this, &PinnedAppsModel::refreshRunningState);
+}
+
 
 bool PinnedAppsModel::addDesktopFile(const QString &desktopFile)
 {
@@ -794,6 +927,22 @@ QString PinnedAppsModel::findDesktopFilePath(const QString &desktopFile) const
 
         if (QFile::exists(path))
             return path;
+    }
+
+    return {};
+}
+
+
+QString PinnedAppsModel::commandForDesktopAction(const QString &desktopFile, const QString &actionId) const
+{
+    const QString path = findDesktopFilePath(desktopFile);
+    if (path.isEmpty() || actionId.trimmed().isEmpty())
+        return {};
+
+    const QList<DesktopActionInfo> actions = readDesktopActionsFromFile(path);
+    for (const DesktopActionInfo &action : actions) {
+        if (action.id == actionId)
+            return action.exec;
     }
 
     return {};

@@ -1,6 +1,0 @@
-/data/Code/RemiDock/build/RemiDock_autogen/include/../36A7VMLXJR/moc_LayerShellManager.cpp.json
-/data/Code/RemiDock/build/RemiDock_autogen/include/../M4YTXQ7V2H/moc_AppCatalogModel.cpp.json
-/data/Code/RemiDock/build/RemiDock_autogen/include/../M4YTXQ7V2H/moc_PinnedAppsModel.cpp.json
-/data/Code/RemiDock/build/RemiDock_autogen/include/../PRMOGMWJPH/moc_RemiDockController.cpp.json
-/data/Code/RemiDock/build/RemiDock_autogen/include/../SVT5AJZPWX/moc_AudioAnalyzer.cpp.json
-/data/Code/RemiDock/build/RemiDock_autogen/include/../SVT5AJZPWX/moc_MediaMonitor.cpp.json
