@@ -3,131 +3,216 @@ name: Build RemiDock
 on:
   push:
     branches:
-      - '**'
+      - "**"
+    tags:
+      - "v*"
   pull_request:
     branches:
-      - '**'
+      - "**"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   BUILD_TYPE: Release
+  CMAKE_GENERATOR: Ninja
 
 jobs:
-  linux-distro:
-    name: Linux ${{ matrix.distro }}
+  build:
+    name: build-${{ matrix.distro }}
     runs-on: ubuntu-24.04
-    container: ${{ matrix.container }}
     continue-on-error: ${{ matrix.experimental }}
+
+    container:
+      image: ${{ matrix.image }}
+      options: --user 0
+
     strategy:
       fail-fast: false
       matrix:
         include:
-          - distro: archlinux
-            container: archlinux:latest
-            installer: scripts/install-arch.sh
+          - distro: arch
+            image: archlinux:latest
+            install_script: scripts/install-arch.sh
+            artifact_name: remidock-arch
             experimental: false
+            cache_paths: |
+              /var/cache/pacman/pkg
+
+          - distro: fedora
+            image: fedora:latest
+            install_script: scripts/install-fedora.sh
+            artifact_name: remidock-fedora
+            experimental: false
+            cache_paths: |
+              /var/cache/dnf
+              /var/cache/libdnf5
+
           - distro: ubuntu-24.04
-            container: ubuntu:24.04
-            installer: scripts/install-ubuntu.sh
+            image: ubuntu:24.04
+            install_script: scripts/install-ubuntu.sh
+            artifact_name: remidock-ubuntu-24.04
             experimental: false
-          - distro: debian-stable
-            container: debian:stable
-            installer: scripts/install-debian.sh
+            cache_paths: |
+              /var/cache/apt
+              /var/lib/apt/lists
+
+          - distro: ubuntu-22.04
+            image: ubuntu:22.04
+            install_script: scripts/install-ubuntu.sh
+            artifact_name: remidock-ubuntu-22.04
             experimental: false
-          - distro: fedora-latest
-            container: fedora:latest
-            installer: scripts/install-fedora.sh
+            cache_paths: |
+              /var/cache/apt
+              /var/lib/apt/lists
+
+          - distro: debian
+            image: debian:trixie
+            install_script: scripts/install-debian.sh
+            artifact_name: remidock-debian
             experimental: false
-          - distro: opensuse-tumbleweed
-            container: opensuse/tumbleweed:latest
-            installer: scripts/install-opensuse.sh
+            cache_paths: |
+              /var/cache/apt
+              /var/lib/apt/lists
+
+          - distro: opensuse
+            image: opensuse/tumbleweed:latest
+            install_script: scripts/install-opensuse.sh
+            artifact_name: remidock-opensuse
             experimental: false
-          - distro: alpine-edge
-            container: alpine:edge
-            installer: scripts/install-alpine.sh
+            cache_paths: |
+              /var/cache/zypp
+
+          - distro: alpine
+            image: alpine:edge
+            install_script: scripts/install-alpine.sh
+            artifact_name: remidock-alpine
             experimental: true
+            cache_paths: |
+              /var/cache/apk
 
     steps:
-      - name: Check out source
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # Qt is installed from each distribution's package manager so the result
-      # matches the target distro ABI. Cache the package archives to avoid
-      # redownloading Qt packages on every workflow run when the runner can
-      # restore them.
-      - name: Cache Qt and package archives
+      - name: Mark repository safe
+        shell: sh
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE" || true
+
+      - name: Restore Qt/package cache
         uses: actions/cache@v4
         with:
-          path: |
-            /var/cache/apt/archives
-            /var/cache/pacman/pkg
-            /var/cache/dnf
-            /var/cache/zypp
-            /var/cache/apk
-          key: remidock-${{ matrix.distro }}-qt-${{ hashFiles('scripts/*.sh', 'CMakeLists.txt') }}
+          path: ${{ matrix.cache_paths }}
+          key: remidock-${{ matrix.distro }}-qt-${{ hashFiles('CMakeLists.txt', 'scripts/install-*.sh', 'scripts/_install-common.sh') }}
           restore-keys: |
             remidock-${{ matrix.distro }}-qt-
 
-      - name: Install dependencies with distro script
-        run: WITH_SUDO=0 SKIP_BUILD=1 ${{ matrix.installer }}
+      - name: Make scripts executable
+        shell: sh
+        run: |
+          chmod +x scripts/*.sh
 
-      - name: Build artifact
-        run: DISTRO_NAME=${{ matrix.distro }} scripts/build-linux.sh
+      - name: Install dependencies on Alpine
+        if: matrix.distro == 'alpine'
+        shell: sh
+        run: |
+          WITH_SUDO=0 SKIP_BUILD=1 "${{ matrix.install_script }}"
 
-      - name: Upload branch artifact
+      - name: Install dependencies
+        if: matrix.distro != 'alpine'
+        shell: bash
+        run: |
+          WITH_SUDO=0 SKIP_BUILD=1 "${{ matrix.install_script }}"
+
+      - name: Build
+        shell: bash
+        run: |
+          DISTRO_NAME="${{ matrix.distro }}" scripts/build-linux.sh
+
+      - name: Package artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          short_sha="${GITHUB_SHA::7}"
+          package_root="${{ matrix.artifact_name }}-${short_sha}"
+
+          rm -rf dist artifacts
+          mkdir -p "dist/${package_root}" artifacts
+
+          if [ -x build/bin/RemiDock ]; then
+            cp build/bin/RemiDock "dist/${package_root}/"
+          elif [ -x build/RemiDock ]; then
+            cp build/RemiDock "dist/${package_root}/"
+          else
+            found="$(find build -type f -perm -111 -name 'RemiDock*' | head -n 1 || true)"
+            if [ -z "${found}" ]; then
+              echo "Could not find RemiDock executable"
+              find build -maxdepth 4 -type f | sort
+              exit 1
+            fi
+            cp "${found}" "dist/${package_root}/RemiDock"
+          fi
+
+          cp -a README.md LICENSE CHANGELOG.md "dist/${package_root}/" 2>/dev/null || true
+          cp -a data images icon.png "dist/${package_root}/" 2>/dev/null || true
+          cp -a scripts "dist/${package_root}/" 2>/dev/null || true
+
+          tar -C dist -czf "artifacts/${package_root}.tar.gz" "${package_root}"
+
+      - name: Upload CI artifact
         uses: actions/upload-artifact@v4
         with:
-          name: remidock-${{ matrix.distro }}-${{ github.sha }}
+          name: ${{ matrix.artifact_name }}-${{ github.sha }}
           path: artifacts/*.tar.gz
           if-no-files-found: error
+          retention-days: 14
 
-  attach-master-release:
-    name: Attach artifacts to master release
-    permissions:
-      contents: write
+  release:
+    name: attach-release-artifacts
     runs-on: ubuntu-24.04
-    needs: linux-distro
-    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    needs: build
+
+    # Release upload only from main branch or version tags.
+    # Normal dev/feature branches only get workflow artifacts.
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
 
     steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Download all artifacts
+      - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          path: release-assets
+          path: release-artifacts
           merge-multiple: true
 
-      - name: Create or update master release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: master-latest
-          RELEASE_TITLE: RemiDock master latest
+      - name: List release artifacts
         run: |
-          set -Eeuo pipefail
-          shopt -s nullglob
-          files=(release-assets/*.tar.gz)
-          if (( ${#files[@]} == 0 )); then
-            echo "No artifacts were produced; refusing to publish an empty release." >&2
-            exit 1
-          fi
+          find release-artifacts -type f -maxdepth 2 -print
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -f "$RELEASE_TAG" "$GITHUB_SHA"
-          git push -f origin "$RELEASE_TAG"
+      - name: Create or update release from main
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: main-latest
+          name: RemiDock main latest
+          body: |
+            Automatic RemiDock build from the main branch.
 
-          notes="Automatic artifacts from master commit $GITHUB_SHA."
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release edit "$RELEASE_TAG" --title "$RELEASE_TITLE" --notes "$notes" --latest
-          else
-            gh release create "$RELEASE_TAG" --title "$RELEASE_TITLE" --notes "$notes" --latest
-          fi
+            Commit: ${{ github.sha }}
+          files: release-artifacts/*.tar.gz
+          prerelease: true
+          make_latest: false
 
-          gh release upload "$RELEASE_TAG" "${files[@]}" --clobber
+      - name: Create release from version tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: RemiDock ${{ github.ref_name }}
+          body: |
+            RemiDock ${{ github.ref_name }}
+
+            Commit: ${{ github.sha }}
+          files: release-artifacts/*.tar.gz
+          prerelease: false
+          make_latest: true
