@@ -11,7 +11,7 @@ if [[ "$SKIP_DEPS" != "1" ]]; then
     as_root pacman -Syu --needed "${yes_flags[@]}" \
         base-devel cmake ninja gcc git extra-cmake-modules \
         qt6-base qt6-declarative qt6-svg qt6-tools qt6-imageformats \
-        layer-shell-qt libpulse
+        libxkbcommon layer-shell-qt libpulse
 else
     log "Skipping dependency install because SKIP_DEPS=1"
 fi

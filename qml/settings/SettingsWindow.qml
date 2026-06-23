@@ -83,11 +83,69 @@ Window {
     Dialog {
         id: aboutRemiDockDialog
 
-        title: "About RemiDock"
         modal: true
         anchors.centerIn: parent
-        standardButtons: Dialog.Close
-        width: 470
+        width: 430
+        height: 190
+        padding: 12
+        closePolicy: Popup.CloseOnEscape
+
+        header: Rectangle {
+            color: "#2a2a34"
+            height: 36
+            radius: 10
+
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: 10
+                color: "#2a2a34"
+            }
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 16
+                anchors.rightMargin: 10
+                spacing: 8
+
+                Label {
+                    text: "About RemiDock"
+                    color: "white"
+                    font.pixelSize: 16
+                    font.bold: true
+                    Layout.fillWidth: true
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Button {
+                    id: aboutRemiDockCloseButton
+                    text: "×"
+                    hoverEnabled: true
+                    Layout.preferredWidth: 26
+                    Layout.preferredHeight: 26
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Close"
+                    onClicked: aboutRemiDockDialog.close()
+
+                    background: Rectangle {
+                        radius: 13
+                        color: aboutRemiDockCloseButton.down ? "#b71c1c" : aboutRemiDockCloseButton.hovered ? "#f44336" : "#d32f2f"
+                        border.color: "#ff8a80"
+                        border.width: 1
+                    }
+
+                    contentItem: Text {
+                        text: aboutRemiDockCloseButton.text
+                        color: "white"
+                        font.pixelSize: 18
+                        font.bold: true
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+        }
 
         background: Rectangle {
             color: "#2a2a34"
@@ -96,12 +154,12 @@ Window {
         }
 
         contentItem: ColumnLayout {
-            spacing: 10
+            spacing: 6
 
             Label {
                 text: "RemiDock"
                 color: "white"
-                font.pixelSize: 24
+                font.pixelSize: 21
                 font.bold: true
                 Layout.fillWidth: true
             }
@@ -113,12 +171,6 @@ Window {
                 Layout.fillWidth: true
             }
 
-            Label {
-                text: "A lightweight Qt 6/QML dock for Linux Wayland desktops."
-                color: "#cccccc"
-                wrapMode: Text.WordWrap
-                Layout.fillWidth: true
-            }
 
             Label {
                 text: "GitHub: <a href=\"https://github.com/yousefvand/RemiDock\">https://github.com/yousefvand/RemiDock</a>"
@@ -194,7 +246,10 @@ Window {
                     text: "About Qt"
                     Layout.preferredWidth: 120
                     Layout.preferredHeight: 30
-                    onClicked: dockController.showAboutQtDialog()
+                    onClicked: {
+                        aboutRemiDockDialog.close()
+                        dockController.showAboutQtDialog()
+                    }
                 }
 
                 Button {
@@ -568,7 +623,7 @@ Window {
                                     required property string desktopFile
 
                                     width: appList.width
-                                    height: 42
+                                    height: 36
                                     radius: 6
                                     color: "#2d2d36"
 

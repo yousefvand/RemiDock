@@ -2,6 +2,8 @@
 
 #include <QtMath>
 
+#include <QApplication>
+#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -331,7 +333,18 @@ int RemiDockController::iconThemeIndex(const QString &theme) const
 
 void RemiDockController::showAboutQtDialog()
 {
+    auto *app = qobject_cast<QApplication *>(QApplication::instance());
+    if (app)
+        app->setQuitOnLastWindowClosed(false);
+
+    // Show Qt's standard About Qt dialog in the main process.
+    // Using a detached helper process can make the dialog appear as a full-screen
+    // top-level Wayland window on some desktops and may leave stale state before
+    // opening the QML About RemiDock dialog.
     QMessageBox::aboutQt(nullptr, tr("About Qt"));
+
+    if (app)
+        app->setQuitOnLastWindowClosed(false);
 }
 
 void RemiDockController::cycleEdge()

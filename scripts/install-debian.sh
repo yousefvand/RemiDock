@@ -16,7 +16,7 @@ if [[ "$SKIP_DEPS" != "1" ]]; then
         qt6-declarative-dev qt6-declarative-dev-tools \
         qt6-svg-dev qt6-tools-dev qt6-tools-dev-tools \
         qt6-image-formats-plugins \
-        libpulse-dev liblayershellqtinterface-dev
+        libxkbcommon-dev libpulse-dev liblayershellqtinterface-dev
 else
     log "Skipping dependency install because SKIP_DEPS=1"
 fi

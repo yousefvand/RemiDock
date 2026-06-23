@@ -14,7 +14,7 @@ if [[ "$SKIP_DEPS" != "1" ]]; then
         extra-cmake-modules \
         qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtsvg-devel \
         qt6-qttools-devel qt6-qtimageformats \
-        pulseaudio-libs-devel layer-shell-qt-devel
+        libxkbcommon-devel pulseaudio-libs-devel layer-shell-qt-devel
 else
     log "Skipping dependency install because SKIP_DEPS=1"
 fi

@@ -55,7 +55,7 @@ RemiDock started as a modern dock project and is designed to be simple, visually
 ## Tech stack
 
 - **C++20**
-- **Qt 6**
+- **Qt 6.4+**
 - **QML / Qt Quick / Qt Quick Controls 2**
 - **LayerShellQt**
 - **Linux Wayland layer-shell support**
@@ -100,10 +100,10 @@ Install the main dependencies:
 sudo pacman -S --needed \
   base-devel cmake ninja gcc extra-cmake-modules \
   qt6-base qt6-declarative qt6-svg qt6-tools qt6-imageformats \
-  layer-shell-qt libpulse
+  libxkbcommon layer-shell-qt libpulse
 ```
 
-Depending on your distribution, package names may differ. You need Qt 6, Qt Quick/QML, Qt Quick Controls 2, Qt SVG, Qt image format plugins, LayerShellQt, CMake, Ninja, and PulseAudio/PipeWire-compatible audio tooling.
+Depending on your distribution, package names may differ. You need Qt 6.4 or newer, Qt Quick/QML, Qt Quick Controls 2, Qt SVG, Qt image format plugins, LayerShellQt, CMake, Ninja, libxkbcommon, and PulseAudio/PipeWire-compatible audio tooling.
 
 
 ---
@@ -265,3 +265,7 @@ If you want to contribute:
 
 If you are experimenting with visuals, QML hover effects, or dock behavior, feel free to open an issue first to discuss the idea.
 
+
+### Alpine CI note
+
+Alpine's minimal container image does not include `bash` by default. Use `scripts/install-alpine.sh` directly; it starts with `/bin/sh`, installs `bash` plus the Alpine Qt/KDE build dependencies, and then the normal build scripts can run.

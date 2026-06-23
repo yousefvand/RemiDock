@@ -42,7 +42,7 @@ install_pacman() {
     run_pm pacman -Syu --needed "${yes[@]}" \
         base-devel cmake ninja gcc git extra-cmake-modules \
         qt6-base qt6-declarative qt6-svg qt6-tools qt6-imageformats \
-        layer-shell-qt libpulse
+        libxkbcommon layer-shell-qt libpulse
 }
 
 install_apt() {
@@ -55,7 +55,7 @@ install_apt() {
         extra-cmake-modules \
         qt6-base-dev qt6-base-dev-tools qt6-declarative-dev qt6-declarative-dev-tools \
         qt6-svg-dev qt6-tools-dev qt6-tools-dev-tools qt6-image-formats-plugins \
-        libpulse-dev liblayershellqtinterface-dev
+        libxkbcommon-dev libpulse-dev liblayershellqtinterface-dev
 }
 
 install_dnf() {
@@ -66,19 +66,23 @@ install_dnf() {
         @development-tools cmake ninja-build gcc-c++ git pkgconf-pkg-config \
         extra-cmake-modules \
         qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtsvg-devel qt6-qttools-devel qt6-qtimageformats \
-        pulseaudio-libs-devel layer-shell-qt-devel
+        libxkbcommon-devel pulseaudio-libs-devel layer-shell-qt6-devel
 }
 
 install_zypper() {
-    local yes=()
-    [[ "$ASSUME_YES" == "1" ]] && yes=(--non-interactive)
+    local zypper_flags=()
+    [[ "$ASSUME_YES" == "1" ]] && zypper_flags=(--non-interactive --gpg-auto-import-keys)
     log "Installing dependencies with zypper"
-    run_pm zypper refresh
-    run_pm zypper install "${yes[@]}" \
+
+    # zypper global options must appear before the command name.
+    # Correct: zypper --non-interactive install package
+    # Wrong:   zypper install --non-interactive package
+    run_pm zypper "${zypper_flags[@]}" refresh
+    run_pm zypper "${zypper_flags[@]}" install \
         patterns-devel-base-devel_basis cmake ninja gcc-c++ git pkgconf-pkg-config \
         extra-cmake-modules \
         qt6-base-devel qt6-declarative-devel qt6-svg-devel qt6-tools qt6-imageformats \
-        libpulse-devel layer-shell-qt-devel
+        libxkbcommon-devel libpulse-devel layer-shell-qt6-devel
 }
 
 install_apk() {
@@ -86,7 +90,7 @@ install_apk() {
     run_pm apk add --update \
         build-base cmake ninja g++ git pkgconf extra-cmake-modules \
         qt6-qtbase-dev qt6-qtdeclarative-dev qt6-qtsvg-dev qt6-qttools-dev qt6-qtimageformats \
-        pulseaudio-dev layer-shell-qt-dev
+        libxkbcommon-dev pulseaudio-dev layer-shell-qt-dev
 }
 
 if have pacman; then
