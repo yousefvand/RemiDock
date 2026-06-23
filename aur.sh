@@ -313,14 +313,19 @@ package() {
   # Binary-only package: do not run `cmake --install`, because that may
   # install README, license, desktop files, icons, autostart files, or other
   # project resources. Only the compiled executable is packaged.
-  local binary_path="build/$BINARY_NAME"
+  local binary_path=""
 
-  if [[ ! -x "\$binary_path" ]]; then
+  # The RemiDock CMake build currently places the executable in build/bin/.
+  # Older or different layouts may place it elsewhere, so keep a safe fallback.
+  if [[ -f "build/bin/$BINARY_NAME" && -x "build/bin/$BINARY_NAME" ]]; then
+    binary_path="build/bin/$BINARY_NAME"
+  else
     binary_path="\$(find build -type f -perm -111 -name '$BINARY_NAME' | head -n 1)"
   fi
 
-  if [[ -z "\${binary_path:-}" || ! -x "\$binary_path" ]]; then
-    printf 'ERROR: Could not find built executable: $BINARY_NAME\n' >&2
+  if [[ -z "\${binary_path:-}" || ! -f "\$binary_path" || ! -x "\$binary_path" ]]; then
+    printf 'ERROR: Could not find built executable file: $BINARY_NAME\n' >&2
+    find build -maxdepth 3 -name '$BINARY_NAME' -print >&2 || true
     exit 1
   fi
 
