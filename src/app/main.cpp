@@ -21,7 +21,7 @@
 #include "RemiDockController.h"
 
 #ifndef REMIDOCK_VERSION
-#define REMIDOCK_VERSION "0.4.0"
+#define REMIDOCK_VERSION "0.4.12"
 #endif
 
 int main(int argc, char *argv[])

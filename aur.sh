@@ -5,7 +5,7 @@ set -Eeuo pipefail
 #
 # Default values are set for:
 #   pkgname:  remidock
-#   version:  0.4.0
+#   version:  0.4.12
 #   source:   https://github.com/yousefvand/RemiDock.git
 #   binary:   RemiDock
 #
@@ -26,7 +26,7 @@ set -Eeuo pipefail
 #   NONINTERACTIVE=1 ./aur.sh
 
 PKGNAME="${PKGNAME:-remidock}"
-VERSION="${VERSION:-0.4.11}"
+VERSION="${VERSION:-0.4.12}"
 GITHUB_REPO="${GITHUB_REPO:-https://github.com/yousefvand/RemiDock.git}"
 BINARY_NAME="${BINARY_NAME:-RemiDock}"
 APP_ID="${APP_ID:-org.remisa.RemiDock}"
@@ -108,7 +108,7 @@ build_local() {
     cmake --build "$PROJECT_ROOT/$BUILD_DIR"
 }
 
-remove_unmanaged_file_if_present() {
+remove_unmanaged_path_if_present() {
     local path="$1"
 
     if [[ ! -e "$path" ]]; then
@@ -124,12 +124,35 @@ remove_unmanaged_file_if_present() {
     sudo rm -rf -- "$path"
 }
 
+remove_empty_directory_if_present() {
+    local path="$1"
+
+    if [[ ! -d "$path" ]]; then
+        return
+    fi
+
+    if pacman -Qo "$path" >/dev/null 2>&1; then
+        return
+    fi
+
+    sudo rmdir -- "$path" >/dev/null 2>&1 || true
+}
+
 remove_old_manual_install_conflicts() {
     log "Checking for old unmanaged RemiDock files from previous manual installs"
 
-    remove_unmanaged_file_if_present "/usr/bin/$BINARY_NAME"
-    remove_unmanaged_file_if_present "/usr/share/applications/$APP_ID.desktop"
-    remove_unmanaged_file_if_present "/usr/share/pixmaps/remidock.png"
+    # Files used by older manual installs and by the pacman package.
+    # If any of these exist but are not owned by pacman, pacman -U will abort
+    # with "exists in filesystem" during an AUR upgrade/install.
+    remove_unmanaged_path_if_present "/usr/bin/$BINARY_NAME"
+    remove_unmanaged_path_if_present "/usr/share/applications/$APP_ID.desktop"
+    remove_unmanaged_path_if_present "/usr/share/pixmaps/remidock.png"
+    remove_unmanaged_path_if_present "/usr/share/doc/remidock/README.md"
+    remove_unmanaged_path_if_present "/usr/share/licenses/remidock/LICENSE"
+    remove_unmanaged_path_if_present "/etc/xdg/autostart/$APP_ID.desktop"
+
+    remove_empty_directory_if_present "/usr/share/doc/remidock"
+    remove_empty_directory_if_present "/usr/share/licenses/remidock"
 }
 
 install_aur_package_locally() {

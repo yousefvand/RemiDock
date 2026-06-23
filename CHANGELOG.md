@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.4.12
+
+- Fixed AUR upgrade/install cleanup for unmanaged README, LICENSE, and autostart files left by older manual installs.
+- Bumped project application version to match the AUR package version.
+
 ## 0.4.11
 
 - Fixed CI
