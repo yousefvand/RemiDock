@@ -83,6 +83,8 @@ jobs:
       - name: Install dependencies
         shell: sh
         run: |
+          set -eu
+
           if [ "${{ matrix.install_shell }}" = "sh" ]; then
             WITH_SUDO=0 SKIP_BUILD=1 sh "${{ matrix.install_script }}"
           else
@@ -122,8 +124,13 @@ jobs:
             cp "${found}" "${package_dir}/RemiDock"
           fi
 
-          cp -a README.md LICENSE CHANGELOG.md "${package_dir}/" 2>/dev/null || true
-          cp -a data images icon.png scripts "${package_dir}/" 2>/dev/null || true
+          cp -a README.md "${package_dir}/" 2>/dev/null || true
+          cp -a LICENSE "${package_dir}/" 2>/dev/null || true
+          cp -a CHANGELOG.md "${package_dir}/" 2>/dev/null || true
+          cp -a data "${package_dir}/" 2>/dev/null || true
+          cp -a images "${package_dir}/" 2>/dev/null || true
+          cp -a icon.png "${package_dir}/" 2>/dev/null || true
+          cp -a scripts "${package_dir}/" 2>/dev/null || true
 
           tar -C package -czf "artifacts/${package_name}.tar.gz" "${package_name}"
 
@@ -157,11 +164,23 @@ jobs:
         run: |
           set -euo pipefail
 
-          version="$(grep -E 'project\\(RemiDock VERSION ' CMakeLists.txt | sed -E 's/.*VERSION ([0-9]+\\.[0-9]+\\.[0-9]+).*/\\1/' | head -n 1)"
+          version="$(
+            python3 - <<'PY'
+          import re
+          from pathlib import Path
 
-          if [ -z "${version}" ]; then
-            version="0.4.0"
-          fi
+          text = Path("CMakeLists.txt").read_text(encoding="utf-8", errors="ignore")
+          text = re.sub(r"#.*", "", text)
+
+          match = re.search(
+              r"project\s*\(\s*RemiDock\b[\s\S]*?\bVERSION\s+([0-9]+(?:\.[0-9]+){1,3})",
+              text,
+              re.IGNORECASE,
+          )
+
+          print(match.group(1) if match else "0.4.6")
+          PY
+          )"
 
           short_sha="${GITHUB_SHA::7}"
 
@@ -169,6 +188,13 @@ jobs:
           echo "short_sha=${short_sha}" >> "$GITHUB_OUTPUT"
           echo "tag=v${version}-${short_sha}" >> "$GITHUB_OUTPUT"
           echo "release_name=RemiDock v${version} (${short_sha})" >> "$GITHUB_OUTPUT"
+
+      - name: Show release info
+        shell: bash
+        run: |
+          echo "Release tag:  ${{ steps.version.outputs.tag }}"
+          echo "Release name: ${{ steps.version.outputs.release_name }}"
+          find release-artifacts -type f -print
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
