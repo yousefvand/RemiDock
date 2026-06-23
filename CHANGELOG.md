@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.10
+
+- Fixed CI
+
 ## 0.4.9
 
 - Fixed CI

@@ -57,13 +57,6 @@ jobs:
             install_shell: bash
             experimental: false
 
-          - name: opensuse-tumbleweed
-            image: opensuse/tumbleweed:latest
-            install_script: scripts/install-opensuse.sh
-            artifact_name: remidock-opensuse-tumbleweed
-            install_shell: bash
-            experimental: true
-
           - name: alpine-edge
             image: alpine:edge
             install_script: scripts/install-alpine.sh
@@ -208,7 +201,8 @@ jobs:
             Branch: main
 
             Artifacts are attached only for successful distro builds.
-            openSUSE Tumbleweed and Alpine Edge are experimental.
+            openSUSE Tumbleweed is supported by script but excluded from CI because its repository CDN often times out.
+            Alpine Edge is experimental.
           files: release-artifacts/*.tar.gz
           prerelease: false
           make_latest: true
