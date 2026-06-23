@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - "**"
-    tags:
-      - "v*"
   pull_request:
     branches:
       - "**"
@@ -127,8 +125,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          short_sha="${GITHUB_SHA::7}"
-          package_root="${{ matrix.artifact_name }}-${short_sha}"
+          package_root="${{ matrix.artifact_name }}"
 
           rm -rf dist artifacts
           mkdir -p "dist/${package_root}" artifacts
@@ -156,55 +153,78 @@ jobs:
       - name: Upload CI artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact_name }}-${{ github.sha }}
+          name: ${{ matrix.artifact_name }}
           path: artifacts/*.tar.gz
           if-no-files-found: error
           retention-days: 14
 
   release:
-    name: attach-release-artifacts
+    name: create-versioned-main-release
     runs-on: ubuntu-24.04
     needs: build
 
-    # Release upload only from main branch or version tags.
-    # Normal dev/feature branches only get workflow artifacts.
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    # Only pushes to main publish GitHub Releases.
+    # Other branches and pull requests only create workflow artifacts.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           path: release-artifacts
           merge-multiple: true
 
-      - name: List release artifacts
+      - name: Create new versioned release for this main push
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          find release-artifacts -maxdepth 2 -type f -print
+          set -euo pipefail
+          shopt -s nullglob
 
-      - name: Create or update release from main
-        if: github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: main-latest
-          name: RemiDock main latest
-          body: |
-            Automatic RemiDock build from the main branch.
+          files=(release-artifacts/*.tar.gz)
+          if (( ${#files[@]} == 0 )); then
+            echo "No release artifacts found." >&2
+            exit 1
+          fi
 
-            Commit: ${{ github.sha }}
-          files: release-artifacts/*.tar.gz
-          prerelease: true
-          make_latest: false
+          version="$(sed -nE 's/^project\(RemiDock VERSION ([^ ]+).*/\1/p' CMakeLists.txt | head -n 1)"
+          if [ -z "$version" ]; then
+            echo "Could not read RemiDock version from CMakeLists.txt" >&2
+            exit 1
+          fi
 
-      - name: Create release from version tag
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
-        with:
-          name: RemiDock ${{ github.ref_name }}
-          body: |
-            RemiDock ${{ github.ref_name }}
+          short_sha="${GITHUB_SHA::7}"
+          release_tag="v${version}-${short_sha}"
+          release_title="RemiDock v${version} (${short_sha})"
+          notes="Automatic RemiDock Linux builds from main.\n\nVersion: v${version}\nCommit: ${GITHUB_SHA}"
 
-            Commit: ${{ github.sha }}
-          files: release-artifacts/*.tar.gz
-          prerelease: false
-          make_latest: true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git rev-parse "$release_tag" >/dev/null 2>&1; then
+            echo "Tag $release_tag already exists locally."
+          else
+            git tag "$release_tag" "$GITHUB_SHA"
+          fi
+          git push origin "$release_tag" || true
+
+          if gh release view "$release_tag" >/dev/null 2>&1; then
+            gh release edit "$release_tag" \
+              --title "$release_title" \
+              --notes "$notes" \
+              --prerelease=false \
+              --latest
+          else
+            gh release create "$release_tag" \
+              --title "$release_title" \
+              --notes "$notes" \
+              --latest
+          fi
+
+          gh release upload "$release_tag" "${files[@]}" --clobber

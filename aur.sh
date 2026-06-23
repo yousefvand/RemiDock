@@ -26,7 +26,7 @@ set -Eeuo pipefail
 #   NONINTERACTIVE=1 ./aur.sh
 
 PKGNAME="${PKGNAME:-remidock}"
-VERSION="${VERSION:-0.4.3}"
+VERSION="${VERSION:-0.4.4}"
 GITHUB_REPO="${GITHUB_REPO:-https://github.com/yousefvand/RemiDock.git}"
 BINARY_NAME="${BINARY_NAME:-RemiDock}"
 APP_ID="${APP_ID:-org.remisa.RemiDock}"
