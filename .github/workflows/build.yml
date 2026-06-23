@@ -62,7 +62,7 @@ jobs:
             install_script: scripts/install-opensuse.sh
             artifact_name: remidock-opensuse-tumbleweed
             install_shell: bash
-            experimental: false
+            experimental: true
 
           - name: alpine-edge
             image: alpine:edge
@@ -206,6 +206,9 @@ jobs:
 
             Commit: ${{ github.sha }}
             Branch: main
+
+            Artifacts are attached only for successful distro builds.
+            openSUSE Tumbleweed and Alpine Edge are experimental.
           files: release-artifacts/*.tar.gz
           prerelease: false
           make_latest: true
