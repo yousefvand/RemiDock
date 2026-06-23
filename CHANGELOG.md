@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.3
+
+- Made scripts executable
+
 ## 0.4.2
 
 - Fixed CI
