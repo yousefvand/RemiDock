@@ -35,6 +35,7 @@ jobs:
             install_script: scripts/install-arch.sh
             artifact_name: remidock-arch
             experimental: false
+            cache_enabled: true
             cache_paths: |
               /var/cache/pacman/pkg
 
@@ -43,40 +44,43 @@ jobs:
             install_script: scripts/install-fedora.sh
             artifact_name: remidock-fedora
             experimental: false
+            cache_enabled: false
             cache_paths: |
-              /tmp/remidock-empty-fedora-cache
+              /tmp/remidock-no-fedora-cache
 
           - distro: ubuntu-24.04
             image: ubuntu:24.04
             install_script: scripts/install-ubuntu.sh
             artifact_name: remidock-ubuntu-24.04
             experimental: false
+            cache_enabled: true
             cache_paths: |
-              /var/cache/apt
-              /var/lib/apt/lists
+              /var/cache/apt/archives
 
           - distro: debian-trixie
             image: debian:trixie
             install_script: scripts/install-debian.sh
             artifact_name: remidock-debian-trixie
             experimental: false
+            cache_enabled: true
             cache_paths: |
-              /var/cache/apt
-              /var/lib/apt/lists
+              /var/cache/apt/archives
 
           - distro: opensuse-tumbleweed
             image: opensuse/tumbleweed:latest
             install_script: scripts/install-opensuse.sh
             artifact_name: remidock-opensuse-tumbleweed
             experimental: false
+            cache_enabled: true
             cache_paths: |
-              /var/cache/zypp
+              /var/cache/zypp/packages
 
           - distro: alpine-edge
             image: alpine:edge
             install_script: scripts/install-alpine.sh
             artifact_name: remidock-alpine-edge
             experimental: true
+            cache_enabled: true
             cache_paths: |
               /var/cache/apk
 
@@ -89,18 +93,37 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE" || true
 
-      - name: Prepare cache directories
+      - name: Prepare package cache directory
+        if: matrix.cache_enabled
         shell: sh
         run: |
-          mkdir -p ${{ matrix.cache_paths }} || true
+          set -eu
+          case "${{ matrix.distro }}" in
+            arch)
+              mkdir -p /var/cache/pacman/pkg
+              ;;
+            ubuntu-24.04|debian-trixie)
+              mkdir -p /var/cache/apt/archives
+              ;;
+            opensuse-tumbleweed)
+              mkdir -p /var/cache/zypp/packages
+              ;;
+            alpine-edge)
+              mkdir -p /var/cache/apk
+              ;;
+            *)
+              echo "No package cache directory required for ${{ matrix.distro }}"
+              ;;
+          esac
 
-      - name: Restore Qt/package cache
+      - name: Restore package cache
+        if: matrix.cache_enabled
         uses: actions/cache@v4
         with:
           path: ${{ matrix.cache_paths }}
-          key: remidock-${{ matrix.distro }}-qt-${{ hashFiles('CMakeLists.txt', 'scripts/install-*.sh', 'scripts/_install-common.sh') }}
+          key: remidock-${{ matrix.distro }}-packages-${{ hashFiles('CMakeLists.txt', 'scripts/install-*.sh', 'scripts/_install-common.sh') }}
           restore-keys: |
-            remidock-${{ matrix.distro }}-qt-
+            remidock-${{ matrix.distro }}-packages-
 
       - name: Make scripts executable
         shell: sh
@@ -206,7 +229,10 @@ jobs:
           short_sha="${GITHUB_SHA::7}"
           release_tag="v${version}-${short_sha}"
           release_title="RemiDock v${version} (${short_sha})"
-          notes="Automatic RemiDock Linux builds from main.\n\nVersion: v${version}\nCommit: ${GITHUB_SHA}"
+          notes="Automatic RemiDock Linux builds from main.
+
+Version: v${version}
+Commit: ${GITHUB_SHA}"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -219,16 +245,9 @@ jobs:
           git push origin "$release_tag" || true
 
           if gh release view "$release_tag" >/dev/null 2>&1; then
-            gh release edit "$release_tag" \
-              --title "$release_title" \
-              --notes "$notes" \
-              --prerelease=false \
-              --latest
+            gh release edit "$release_tag"               --title "$release_title"               --notes "$notes"               --prerelease=false               --latest
           else
-            gh release create "$release_tag" \
-              --title "$release_title" \
-              --notes "$notes" \
-              --latest
+            gh release create "$release_tag"               --title "$release_title"               --notes "$notes"               --latest
           fi
 
           gh release upload "$release_tag" "${files[@]}" --clobber
