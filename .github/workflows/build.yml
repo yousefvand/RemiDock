@@ -44,8 +44,7 @@ jobs:
             artifact_name: remidock-fedora
             experimental: false
             cache_paths: |
-              /var/cache/dnf
-              /var/cache/libdnf5
+              /tmp/remidock-empty-fedora-cache
 
           - distro: ubuntu-24.04
             image: ubuntu:24.04
@@ -89,6 +88,11 @@ jobs:
         shell: sh
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE" || true
+
+      - name: Prepare cache directories
+        shell: sh
+        run: |
+          mkdir -p ${{ matrix.cache_paths }} || true
 
       - name: Restore Qt/package cache
         uses: actions/cache@v4

@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.5
+
+- Fixed CI
+
 
 ## 0.4.4
 
