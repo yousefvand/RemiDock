@@ -5,7 +5,7 @@ set -Eeuo pipefail
 #
 # Default values are set for:
 #   pkgname:  remidock
-#   version:  0.3.0
+#   version:  0.4.0
 #   source:   https://github.com/yousefvand/RemiDock.git
 #   binary:   RemiDock
 #
@@ -26,7 +26,7 @@ set -Eeuo pipefail
 #   NONINTERACTIVE=1 ./aur.sh
 
 PKGNAME="${PKGNAME:-remidock}"
-VERSION="${VERSION:-0.3.3}"
+VERSION="${VERSION:-0.4.0}"
 GITHUB_REPO="${GITHUB_REPO:-https://github.com/yousefvand/RemiDock.git}"
 BINARY_NAME="${BINARY_NAME:-RemiDock}"
 APP_ID="${APP_ID:-org.remisa.RemiDock}"
@@ -253,7 +253,7 @@ write_pkgbuild() {
 
     log "Writing PKGBUILD"
     cat > "$AUR_REPO_DIR/PKGBUILD" <<EOF
-# Maintainer: Masoud Yousefvand <yousefvand@gmail.com>
+# Maintainer: Remisa Phillips <remisa.yousefvand@gmail.com>
 
 pkgname=$PKGNAME
 pkgver=$VERSION

@@ -2,3 +2,7 @@ RemiDock
 restart.sh
 issues.txt
 build/
+stage/
+artifacts/
+*.tar.gz
+*.zip

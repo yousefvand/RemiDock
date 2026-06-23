@@ -46,6 +46,7 @@ public:
     Q_INVOKABLE void toggleMusicDance();
     Q_INVOKABLE QStringList availableIconThemes() const;
     Q_INVOKABLE int iconThemeIndex(const QString &theme) const;
+    Q_INVOKABLE void showAboutQtDialog();
 
 public slots:
     void setIconSize(int value);

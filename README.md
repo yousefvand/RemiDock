@@ -55,7 +55,7 @@ RemiDock started as a modern dock project and is designed to be simple, visually
 ## Tech stack
 
 - **C++20**
-- **Qt 6**
+- **Qt 6.4+**
 - **QML / Qt Quick / Qt Quick Controls 2**
 - **LayerShellQt**
 - **Linux Wayland layer-shell support**
@@ -100,10 +100,71 @@ Install the main dependencies:
 sudo pacman -S --needed \
   base-devel cmake ninja gcc extra-cmake-modules \
   qt6-base qt6-declarative qt6-svg qt6-tools qt6-imageformats \
-  layer-shell-qt libpulse
+  libxkbcommon layer-shell-qt libpulse
 ```
 
-Depending on your distribution, package names may differ. You need Qt 6, Qt Quick/QML, Qt Quick Controls 2, Qt SVG, Qt image format plugins, LayerShellQt, CMake, Ninja, and PulseAudio/PipeWire-compatible audio tooling.
+Depending on your distribution, package names may differ. You need Qt 6.4 or newer, Qt Quick/QML, Qt Quick Controls 2, Qt SVG, Qt image format plugins, LayerShellQt, CMake, Ninja, libxkbcommon, and PulseAudio/PipeWire-compatible audio tooling.
+
+
+---
+
+## Distro installer scripts
+
+RemiDock includes explicit installer scripts for the main Linux distro families. These scripts install dependencies, configure CMake, build RemiDock, and install it system-wide under `/usr` by default.
+
+Clone the project first:
+
+```bash
+git clone https://github.com/yousefvand/RemiDock.git
+cd RemiDock
+```
+
+Then run the script for your distro:
+
+```bash
+./scripts/install-arch.sh       # Arch Linux / Manjaro / EndeavourOS
+./scripts/install-fedora.sh     # Fedora
+./scripts/install-ubuntu.sh     # Ubuntu
+./scripts/install-debian.sh     # Debian
+./scripts/install-opensuse.sh   # openSUSE Tumbleweed / Leap
+./scripts/install-alpine.sh     # Alpine Linux
+./scripts/install-linux.sh      # auto-detect supported distro
+```
+
+Example for Fedora:
+
+```bash
+./scripts/install-fedora.sh
+```
+
+After installation, launch RemiDock from your application launcher or run:
+
+```bash
+RemiDock
+```
+
+Installer options:
+
+```bash
+ASSUME_YES=0 ./scripts/install-fedora.sh      # ask before installing packages
+SKIP_INSTALL=1 ./scripts/install-fedora.sh    # build only, do not install system-wide
+INSTALL_PREFIX=/usr/local ./scripts/install-fedora.sh
+SKIP_DEPS=1 ./scripts/install-fedora.sh       # skip package installation
+BUILD_DIR=/tmp/remidock-build ./scripts/install-fedora.sh
+BUILD_TYPE=Debug ./scripts/install-fedora.sh
+```
+
+To build a local tarball without installing to the live system:
+
+```bash
+./scripts/build-linux.sh
+```
+
+Build artifacts are written to:
+
+```text
+artifacts/
+```
 
 ---
 
@@ -131,29 +192,6 @@ For Archlinux users:
 
 ```bash
 yay -S remidock
-```
-
----
-
-## Project structure
-
-```text
-RemiDock/
-├── assets/                  # Images / animation assets
-├── data/                    # Desktop file and packaging resources
-├── qml/
-│   ├── dock/                # Main dock UI components
-│   ├── hoverAnimations/     # Hover animation components/templates
-│   └── settings/            # Settings window UI
-├── src/
-│   ├── app/                 # Application entry point
-│   ├── core/                # Main controller / app state
-│   ├── media/               # Audio and media-related logic
-│   ├── models/              # App lists / pinned items / catalogs
-│   ├── platform/            # LayerShell / window integration
-│   └── ui/                  # Image providers / UI helpers
-├── CMakeLists.txt
-└── README.md
 ```
 
 ---
@@ -227,3 +265,7 @@ If you want to contribute:
 
 If you are experimenting with visuals, QML hover effects, or dock behavior, feel free to open an issue first to discuss the idea.
 
+
+### Alpine CI note
+
+Alpine's minimal container image does not include `bash` by default. Use `scripts/install-alpine.sh` directly; it starts with `/bin/sh`, installs `bash` plus the Alpine Qt/KDE build dependencies, and then the normal build scripts can run.

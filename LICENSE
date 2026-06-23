@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Remisa Phillips
+Copyright (c) 2026 Remisa Phillips <remisa.yousefvand@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,16 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Qt notice
+---------
+
+RemiDock is built with Qt. Qt, Qt logos, and Qt libraries are owned by The Qt
+Company Ltd. and/or the Qt Project contributors and are distributed under their
+own license terms. This RemiDock MIT license applies only to RemiDock source code
+and does not grant any additional rights to Qt itself.
+
+If you distribute RemiDock binaries that include or depend on Qt libraries, you
+must also comply with the applicable Qt license terms for the Qt modules you use
+(for example LGPL, GPL, or a commercial Qt license). Keep the relevant Qt license
+notices available to users and do not remove Qt copyright notices.

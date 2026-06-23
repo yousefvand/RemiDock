@@ -1,0 +1,133 @@
+name: Build RemiDock
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  linux-distro:
+    name: Linux ${{ matrix.distro }}
+    runs-on: ubuntu-24.04
+    container: ${{ matrix.container }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - distro: archlinux
+            container: archlinux:latest
+            installer: scripts/install-arch.sh
+            experimental: false
+          - distro: ubuntu-24.04
+            container: ubuntu:24.04
+            installer: scripts/install-ubuntu.sh
+            experimental: false
+          - distro: debian-stable
+            container: debian:stable
+            installer: scripts/install-debian.sh
+            experimental: false
+          - distro: fedora-latest
+            container: fedora:latest
+            installer: scripts/install-fedora.sh
+            experimental: false
+          - distro: opensuse-tumbleweed
+            container: opensuse/tumbleweed:latest
+            installer: scripts/install-opensuse.sh
+            experimental: false
+          - distro: alpine-edge
+            container: alpine:edge
+            installer: scripts/install-alpine.sh
+            experimental: true
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      # Qt is installed from each distribution's package manager so the result
+      # matches the target distro ABI. Cache the package archives to avoid
+      # redownloading Qt packages on every workflow run when the runner can
+      # restore them.
+      - name: Cache Qt and package archives
+        uses: actions/cache@v4
+        with:
+          path: |
+            /var/cache/apt/archives
+            /var/cache/pacman/pkg
+            /var/cache/dnf
+            /var/cache/zypp
+            /var/cache/apk
+          key: remidock-${{ matrix.distro }}-qt-${{ hashFiles('scripts/*.sh', 'CMakeLists.txt') }}
+          restore-keys: |
+            remidock-${{ matrix.distro }}-qt-
+
+      - name: Install dependencies with distro script
+        run: WITH_SUDO=0 SKIP_BUILD=1 ${{ matrix.installer }}
+
+      - name: Build artifact
+        run: DISTRO_NAME=${{ matrix.distro }} scripts/build-linux.sh
+
+      - name: Upload branch artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: remidock-${{ matrix.distro }}-${{ github.sha }}
+          path: artifacts/*.tar.gz
+          if-no-files-found: error
+
+  attach-master-release:
+    name: Attach artifacts to master release
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    needs: linux-distro
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Create or update master release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: master-latest
+          RELEASE_TITLE: RemiDock master latest
+        run: |
+          set -Eeuo pipefail
+          shopt -s nullglob
+          files=(release-assets/*.tar.gz)
+          if (( ${#files[@]} == 0 )); then
+            echo "No artifacts were produced; refusing to publish an empty release." >&2
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f "$RELEASE_TAG" "$GITHUB_SHA"
+          git push -f origin "$RELEASE_TAG"
+
+          notes="Automatic artifacts from master commit $GITHUB_SHA."
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release edit "$RELEASE_TAG" --title "$RELEASE_TITLE" --notes "$notes" --latest
+          else
+            gh release create "$RELEASE_TAG" --title "$RELEASE_TITLE" --notes "$notes" --latest
+          fi
+
+          gh release upload "$RELEASE_TAG" "${files[@]}" --clobber

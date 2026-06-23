@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(RemiDock VERSION 0.2.0 LANGUAGES CXX)
+project(RemiDock VERSION 0.4.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -8,10 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 Svg DBus)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 Svg DBus Widgets)
 find_package(LayerShellQt REQUIRED)
 
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup(REQUIRES 6.4)
 
 qt_add_executable(RemiDock
     src/app/main.cpp
@@ -48,9 +48,14 @@ target_include_directories(RemiDock PRIVATE
     src/ui
 )
 
+target_compile_definitions(RemiDock PRIVATE
+    REMIDOCK_VERSION="${PROJECT_VERSION}"
+)
+
 qt_add_qml_module(RemiDock
     URI RemiDock
     VERSION 1.0
+    RESOURCE_PREFIX /qt/qml
     QML_FILES
         qml/Main.qml
         qml/dock/Dock.qml
@@ -80,8 +85,12 @@ target_link_libraries(RemiDock PRIVATE
     Qt6::QuickControls2
     Qt6::Svg
     Qt6::DBus
+    Qt6::Widgets
     LayerShellQt::Interface
 )
 
 install(TARGETS RemiDock DESTINATION bin)
 install(FILES data/org.remisa.RemiDock.desktop DESTINATION share/applications)
+install(FILES icon.png DESTINATION share/pixmaps RENAME remidock.png)
+install(FILES LICENSE DESTINATION share/licenses/remidock)
+install(FILES README.md DESTINATION share/doc/remidock)

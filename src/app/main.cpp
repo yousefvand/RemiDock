@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QIcon>
@@ -7,6 +7,8 @@
 #include <QQuickWindow>
 #include <QSurfaceFormat>
 #include <QTimer>
+#include <QUrl>
+#include <QtGlobal>
 
 #include <LayerShellQt/Shell>
 
@@ -18,17 +20,24 @@
 #include "AppCatalogModel.h"
 #include "RemiDockController.h"
 
+#ifndef REMIDOCK_VERSION
+#define REMIDOCK_VERSION "0.4.0"
+#endif
+
 int main(int argc, char *argv[])
 {
+
     QSurfaceFormat format;
     format.setAlphaBufferSize(8);
     QSurfaceFormat::setDefaultFormat(format);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
+    app.setQuitOnLastWindowClosed(false);
 
-    QGuiApplication::setApplicationName("RemiDock");
-    QGuiApplication::setOrganizationName("remisa");
-    QGuiApplication::setDesktopFileName("org.remisa.RemiDock");
+    QApplication::setApplicationName("RemiDock");
+    QApplication::setApplicationVersion(QStringLiteral(REMIDOCK_VERSION));
+    QApplication::setOrganizationName("remisa");
+    QApplication::setDesktopFileName("org.remisa.RemiDock");
 
     LayerShellQt::Shell::useLayerShell();
 
@@ -86,7 +95,10 @@ int main(int argc, char *argv[])
         }
     );
 
-    engine.loadFromModule("RemiDock", "Main");
+    // Main.qml is stored under qml/Main.qml in the RemiDock QML module.
+    // Loading by module type name breaks on newer Qt because "Main" is not
+    // exported from the module root. Use the explicit qrc path instead.
+    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/RemiDock/qml/Main.qml")));
 
     if (engine.rootObjects().isEmpty())
         return -1;

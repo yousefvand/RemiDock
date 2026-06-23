@@ -20,6 +20,7 @@ Window {
     property int pinnedCount: pinnedAppsModel.itemCount
     property string reorderTargetId: ""
     property string lastReorderDirection: ""
+    property bool aboutActionsVisible: false
 
     function clearReorderTarget() {
         reorderTargetId = ""
@@ -79,6 +80,117 @@ Window {
         onAccepted: settingsWindow.customIconPath = selectedFile.toString()
     }
 
+    Dialog {
+        id: aboutRemiDockDialog
+
+        modal: true
+        anchors.centerIn: parent
+        width: 430
+        height: 190
+        padding: 12
+        closePolicy: Popup.CloseOnEscape
+
+        header: Rectangle {
+            color: "#2a2a34"
+            height: 36
+            radius: 10
+
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: 10
+                color: "#2a2a34"
+            }
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 16
+                anchors.rightMargin: 10
+                spacing: 8
+
+                Label {
+                    text: "About RemiDock"
+                    color: "white"
+                    font.pixelSize: 16
+                    font.bold: true
+                    Layout.fillWidth: true
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Button {
+                    id: aboutRemiDockCloseButton
+                    text: "×"
+                    hoverEnabled: true
+                    Layout.preferredWidth: 26
+                    Layout.preferredHeight: 26
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Close"
+                    onClicked: aboutRemiDockDialog.close()
+
+                    background: Rectangle {
+                        radius: 13
+                        color: aboutRemiDockCloseButton.down ? "#b71c1c" : aboutRemiDockCloseButton.hovered ? "#f44336" : "#d32f2f"
+                        border.color: "#ff8a80"
+                        border.width: 1
+                    }
+
+                    contentItem: Text {
+                        text: aboutRemiDockCloseButton.text
+                        color: "white"
+                        font.pixelSize: 18
+                        font.bold: true
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+        }
+
+        background: Rectangle {
+            color: "#2a2a34"
+            radius: 10
+            border.color: "#55ffffff"
+        }
+
+        contentItem: ColumnLayout {
+            spacing: 6
+
+            Label {
+                text: "RemiDock"
+                color: "white"
+                font.pixelSize: 21
+                font.bold: true
+                Layout.fillWidth: true
+            }
+
+            Label {
+                text: "Version " + Qt.application.version
+                color: "#dddddd"
+                font.pixelSize: 14
+                Layout.fillWidth: true
+            }
+
+
+            Label {
+                text: "GitHub: <a href=\"https://github.com/yousefvand/RemiDock\">https://github.com/yousefvand/RemiDock</a>"
+                textFormat: Text.RichText
+                linkColor: "#7db7ff"
+                color: "#cccccc"
+                wrapMode: Text.WrapAnywhere
+                Layout.fillWidth: true
+                onLinkActivated: function(link) { Qt.openUrlExternally(link) }
+            }
+
+            Label {
+                text: "Copyright © 2026 Remisa Phillips"
+                color: "#aaaaaa"
+                font.pixelSize: 11
+                Layout.fillWidth: true
+            }
+        }
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "#202028"
@@ -101,6 +213,13 @@ Window {
                 }
 
                 Button {
+                    text: "About"
+                    Layout.preferredWidth: 90
+                    Layout.preferredHeight: 30
+                    onClicked: settingsWindow.aboutActionsVisible = !settingsWindow.aboutActionsVisible
+                }
+
+                Button {
                     text: "Exit"
                     Layout.preferredWidth: 90
                     Layout.preferredHeight: 30
@@ -112,6 +231,32 @@ Window {
                     Layout.preferredWidth: 90
                     Layout.preferredHeight: 30
                     onClicked: settingsWindow.hide()
+                }
+            }
+
+            RowLayout {
+                visible: settingsWindow.aboutActionsVisible
+                Layout.fillWidth: true
+                Layout.preferredHeight: visible ? 34 : 0
+                spacing: 8
+
+                Item { Layout.fillWidth: true }
+
+                Button {
+                    text: "About Qt"
+                    Layout.preferredWidth: 120
+                    Layout.preferredHeight: 30
+                    onClicked: {
+                        aboutRemiDockDialog.close()
+                        dockController.showAboutQtDialog()
+                    }
+                }
+
+                Button {
+                    text: "About RemiDock"
+                    Layout.preferredWidth: 150
+                    Layout.preferredHeight: 30
+                    onClicked: aboutRemiDockDialog.open()
                 }
             }
 
@@ -478,7 +623,7 @@ Window {
                                     required property string desktopFile
 
                                     width: appList.width
-                                    height: 42
+                                    height: 36
                                     radius: 6
                                     color: "#2d2d36"
 
