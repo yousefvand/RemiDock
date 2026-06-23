@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.13
+
+- Fixed aur.sh
+
 ## 0.4.12
 
 - Fixed AUR upgrade/install cleanup for unmanaged README, LICENSE, and autostart files left by older manual installs.

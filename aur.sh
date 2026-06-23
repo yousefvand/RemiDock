@@ -26,7 +26,7 @@ set -Eeuo pipefail
 #   NONINTERACTIVE=1 ./aur.sh
 
 PKGNAME="${PKGNAME:-remidock}"
-VERSION="${VERSION:-0.4.12}"
+VERSION="${VERSION:-0.4.13}"
 GITHUB_REPO="${GITHUB_REPO:-https://github.com/yousefvand/RemiDock.git}"
 BINARY_NAME="${BINARY_NAME:-RemiDock}"
 APP_ID="${APP_ID:-org.remisa.RemiDock}"
@@ -310,24 +310,21 @@ build() {
 }
 
 package() {
-  DESTDIR="\$pkgdir" cmake --install build
+  # Binary-only package: do not run `cmake --install`, because that may
+  # install README, license, desktop files, icons, autostart files, or other
+  # project resources. Only the compiled executable is packaged.
+  local binary_path="build/$BINARY_NAME"
 
-  install -Dm644 "$src_dir/icon.png" "\$pkgdir/usr/share/pixmaps/remidock.png"
-
-  if [[ -f "\$pkgdir/usr/share/applications/$APP_ID.desktop" ]]; then
-    sed -i 's/^Icon=.*/Icon=remidock/' "\$pkgdir/usr/share/applications/$APP_ID.desktop"
+  if [[ ! -x "\$binary_path" ]]; then
+    binary_path="\$(find build -type f -perm -111 -name '$BINARY_NAME' | head -n 1)"
   fi
 
-  # Install a global XDG autostart entry so RemiDock starts automatically
-  # for users on their next Plasma/KDE login after installing from AUR.
-  if [[ -f "$src_dir/data/$APP_ID.desktop" ]]; then
-    install -Dm644 "$src_dir/data/$APP_ID.desktop" "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop"
-    sed -i 's/^Icon=.*/Icon=remidock/' "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop"
-    grep -q '^X-GNOME-Autostart-enabled=' "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop" || \
-      printf 'X-GNOME-Autostart-enabled=true\n' >> "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop"
-    grep -q '^X-KDE-autostart-after=' "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop" || \
-      printf 'X-KDE-autostart-after=panel\n' >> "\$pkgdir/etc/xdg/autostart/$APP_ID.desktop"
+  if [[ -z "\${binary_path:-}" || ! -x "\$binary_path" ]]; then
+    printf 'ERROR: Could not find built executable: $BINARY_NAME\n' >&2
+    exit 1
   fi
+
+  install -Dm755 "\$binary_path" "\$pkgdir/usr/bin/$BINARY_NAME"
 }
 EOF
 }
@@ -359,6 +356,30 @@ prepare_aur_repo() {
         warn "Could not fetch origin/master. Continuing as a new AUR repository."
         git -C "$AUR_REPO_DIR" checkout -B master
     fi
+}
+
+purge_aur_repo_contents() {
+    log "Deleting all existing AUR repository files before writing binary-only package files"
+    (
+        cd "$AUR_REPO_DIR"
+
+        # Keep the git repository itself, but remove every tracked and untracked
+        # working-tree file. This makes the next commit delete old README.md,
+        # docs, icons, tarballs, package files, or anything else that previous
+        # script versions copied into the AUR repo.
+        git reset --hard >/dev/null 2>&1 || true
+        git clean -fdx >/dev/null 2>&1 || true
+        find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf -- {} +
+    )
+}
+
+clean_makepkg_artifacts() {
+    log "Removing local makepkg artifacts before staging the AUR commit"
+    (
+        cd "$AUR_REPO_DIR"
+        rm -rf -- src pkg
+        rm -f -- ./*.pkg.tar* ./*.src.tar* "./$PKGNAME-$VERSION.tar.gz" "./$PKGNAME-$VERSION.tar.gz.part"
+    )
 }
 
 test_aur_package() {
@@ -400,10 +421,10 @@ publish_aur_package() {
     log "Committing and pushing to AUR"
     (
         cd "$AUR_REPO_DIR"
-        git add PKGBUILD .SRCINFO
+        git add -A
 
         if git diff --cached --quiet; then
-            warn "No PKGBUILD/.SRCINFO changes to publish."
+            warn "No AUR repository changes to publish."
             exit 0
         fi
 
@@ -449,11 +470,13 @@ main() {
     download_and_checksum_source "$SOURCE_URL"
 
     prepare_aur_repo
+    purge_aur_repo_contents
     write_pkgbuild "$SOURCE_URL"
     test_aur_package
     install_aur_package_locally
     enable_autostart
     run_remidock
+    clean_makepkg_artifacts
     publish_aur_package
 
     log "Done."
