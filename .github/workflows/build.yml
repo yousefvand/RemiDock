@@ -58,36 +58,27 @@ jobs:
               /var/cache/apt
               /var/lib/apt/lists
 
-          - distro: ubuntu-22.04
-            image: ubuntu:22.04
-            install_script: scripts/install-ubuntu.sh
-            artifact_name: remidock-ubuntu-22.04
-            experimental: false
-            cache_paths: |
-              /var/cache/apt
-              /var/lib/apt/lists
-
-          - distro: debian
+          - distro: debian-trixie
             image: debian:trixie
             install_script: scripts/install-debian.sh
-            artifact_name: remidock-debian
+            artifact_name: remidock-debian-trixie
             experimental: false
             cache_paths: |
               /var/cache/apt
               /var/lib/apt/lists
 
-          - distro: opensuse
+          - distro: opensuse-tumbleweed
             image: opensuse/tumbleweed:latest
             install_script: scripts/install-opensuse.sh
-            artifact_name: remidock-opensuse
+            artifact_name: remidock-opensuse-tumbleweed
             experimental: false
             cache_paths: |
               /var/cache/zypp
 
-          - distro: alpine
+          - distro: alpine-edge
             image: alpine:edge
             install_script: scripts/install-alpine.sh
-            artifact_name: remidock-alpine
+            artifact_name: remidock-alpine-edge
             experimental: true
             cache_paths: |
               /var/cache/apk
@@ -115,13 +106,13 @@ jobs:
           chmod +x scripts/*.sh
 
       - name: Install dependencies on Alpine
-        if: matrix.distro == 'alpine'
+        if: matrix.distro == 'alpine-edge'
         shell: sh
         run: |
           WITH_SUDO=0 SKIP_BUILD=1 "${{ matrix.install_script }}"
 
       - name: Install dependencies
-        if: matrix.distro != 'alpine'
+        if: matrix.distro != 'alpine-edge'
         shell: bash
         run: |
           WITH_SUDO=0 SKIP_BUILD=1 "${{ matrix.install_script }}"
@@ -187,8 +178,9 @@ jobs:
           merge-multiple: true
 
       - name: List release artifacts
+        shell: bash
         run: |
-          find release-artifacts -type f -maxdepth 2 -print
+          find release-artifacts -maxdepth 2 -type f -print
 
       - name: Create or update release from main
         if: github.ref == 'refs/heads/main'

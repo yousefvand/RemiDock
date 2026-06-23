@@ -1,12 +1,16 @@
 # Change Log
 
+## 0.4.2
+
+- Fixed CI
+
 ## 0.4.1
 
 - Fixed CI
 
 ## 0.4.0
 
-- Support major Linux distros.
+- Support major Linux distros
 
 ## 0.3.3
 

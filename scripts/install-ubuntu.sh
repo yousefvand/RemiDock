@@ -14,7 +14,7 @@ if [[ "$SKIP_DEPS" != "1" ]]; then
         extra-cmake-modules \
         qt6-base-dev qt6-base-dev-tools \
         qt6-declarative-dev qt6-declarative-dev-tools \
-        qt6-svg-dev qt6-tools-dev qt6-tools-dev-tools \
+        libqt6svg6-dev qt6-tools-dev qt6-tools-dev-tools \
         qt6-image-formats-plugins \
         libxkbcommon-dev libpulse-dev liblayershellqtinterface-dev
 else

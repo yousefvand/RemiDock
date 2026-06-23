@@ -199,6 +199,7 @@ yay -S remidock
 ## Usage
 
 ### Settings window
+
 Use the **three-dot button** on the dock to open settings.
 
 From the settings window you can:
@@ -214,6 +215,7 @@ From the settings window you can:
 - add custom applications
 
 ### Music mode
+
 Use the **music button** on the opposite end of the dock to toggle music-reactive animation.
 
 When enabled, icons can dance in response to audio activity.
@@ -269,3 +271,8 @@ If you are experimenting with visuals, QML hover effects, or dock behavior, feel
 ### Alpine CI note
 
 Alpine's minimal container image does not include `bash` by default. Use `scripts/install-alpine.sh` directly; it starts with `/bin/sh`, installs `bash` plus the Alpine Qt/KDE build dependencies, and then the normal build scripts can run.
+
+### Ubuntu CI note
+
+RemiDock currently requires Qt 6.4 or newer. The GitHub Actions workflow builds Ubuntu 24.04 because Ubuntu 22.04 ships older stock Qt 6 packages. If Ubuntu 22.04 support is needed, use a custom Qt installation instead of the distribution Qt packages.
+
