@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QIcon>
+#include <QMessageBox>
 #include <QSet>
 #include <QStandardPaths>
 
@@ -326,6 +327,11 @@ int RemiDockController::iconThemeIndex(const QString &theme) const
     }
 
     return 0;
+}
+
+void RemiDockController::showAboutQtDialog()
+{
+    QMessageBox::aboutQt(nullptr, tr("About Qt"));
 }
 
 void RemiDockController::cycleEdge()

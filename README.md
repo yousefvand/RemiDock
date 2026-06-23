@@ -105,6 +105,67 @@ sudo pacman -S --needed \
 
 Depending on your distribution, package names may differ. You need Qt 6, Qt Quick/QML, Qt Quick Controls 2, Qt SVG, Qt image format plugins, LayerShellQt, CMake, Ninja, and PulseAudio/PipeWire-compatible audio tooling.
 
+
+---
+
+## Distro installer scripts
+
+RemiDock includes explicit installer scripts for the main Linux distro families. These scripts install dependencies, configure CMake, build RemiDock, and install it system-wide under `/usr` by default.
+
+Clone the project first:
+
+```bash
+git clone https://github.com/yousefvand/RemiDock.git
+cd RemiDock
+```
+
+Then run the script for your distro:
+
+```bash
+./scripts/install-arch.sh       # Arch Linux / Manjaro / EndeavourOS
+./scripts/install-fedora.sh     # Fedora
+./scripts/install-ubuntu.sh     # Ubuntu
+./scripts/install-debian.sh     # Debian
+./scripts/install-opensuse.sh   # openSUSE Tumbleweed / Leap
+./scripts/install-alpine.sh     # Alpine Linux
+./scripts/install-linux.sh      # auto-detect supported distro
+```
+
+Example for Fedora:
+
+```bash
+./scripts/install-fedora.sh
+```
+
+After installation, launch RemiDock from your application launcher or run:
+
+```bash
+RemiDock
+```
+
+Installer options:
+
+```bash
+ASSUME_YES=0 ./scripts/install-fedora.sh      # ask before installing packages
+SKIP_INSTALL=1 ./scripts/install-fedora.sh    # build only, do not install system-wide
+INSTALL_PREFIX=/usr/local ./scripts/install-fedora.sh
+SKIP_DEPS=1 ./scripts/install-fedora.sh       # skip package installation
+BUILD_DIR=/tmp/remidock-build ./scripts/install-fedora.sh
+BUILD_TYPE=Debug ./scripts/install-fedora.sh
+```
+
+To build a local tarball without installing to the live system:
+
+```bash
+./scripts/build-linux.sh
+```
+
+Build artifacts are written to:
+
+```text
+artifacts/
+```
+
 ---
 
 ## Build
@@ -131,29 +192,6 @@ For Archlinux users:
 
 ```bash
 yay -S remidock
-```
-
----
-
-## Project structure
-
-```text
-RemiDock/
-├── assets/                  # Images / animation assets
-├── data/                    # Desktop file and packaging resources
-├── qml/
-│   ├── dock/                # Main dock UI components
-│   ├── hoverAnimations/     # Hover animation components/templates
-│   └── settings/            # Settings window UI
-├── src/
-│   ├── app/                 # Application entry point
-│   ├── core/                # Main controller / app state
-│   ├── media/               # Audio and media-related logic
-│   ├── models/              # App lists / pinned items / catalogs
-│   ├── platform/            # LayerShell / window integration
-│   └── ui/                  # Image providers / UI helpers
-├── CMakeLists.txt
-└── README.md
 ```
 
 ---

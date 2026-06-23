@@ -1,3 +1,4 @@
+#include <QApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -18,15 +19,20 @@
 #include "AppCatalogModel.h"
 #include "RemiDockController.h"
 
+#ifndef REMIDOCK_VERSION
+#define REMIDOCK_VERSION "0.4.0"
+#endif
+
 int main(int argc, char *argv[])
 {
     QSurfaceFormat format;
     format.setAlphaBufferSize(8);
     QSurfaceFormat::setDefaultFormat(format);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QGuiApplication::setApplicationName("RemiDock");
+    QGuiApplication::setApplicationVersion(QStringLiteral(REMIDOCK_VERSION));
     QGuiApplication::setOrganizationName("remisa");
     QGuiApplication::setDesktopFileName("org.remisa.RemiDock");
 
