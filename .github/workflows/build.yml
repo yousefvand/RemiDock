@@ -14,11 +14,10 @@ permissions:
 
 env:
   BUILD_TYPE: Release
-  CMAKE_GENERATOR: Ninja
 
 jobs:
   build:
-    name: build-${{ matrix.distro }}
+    name: ${{ matrix.name }}
     runs-on: ubuntu-24.04
     continue-on-error: ${{ matrix.experimental }}
 
@@ -30,175 +29,121 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - distro: arch
+          - name: arch
             image: archlinux:latest
             install_script: scripts/install-arch.sh
             artifact_name: remidock-arch
+            install_shell: bash
             experimental: false
-            cache_enabled: true
-            cache_paths: |
-              /var/cache/pacman/pkg
 
-          - distro: fedora
-            image: fedora:latest
-            install_script: scripts/install-fedora.sh
-            artifact_name: remidock-fedora
-            experimental: false
-            cache_enabled: false
-            cache_paths: |
-              /tmp/remidock-no-fedora-cache
-
-          - distro: ubuntu-24.04
+          - name: ubuntu-24.04
             image: ubuntu:24.04
             install_script: scripts/install-ubuntu.sh
             artifact_name: remidock-ubuntu-24.04
+            install_shell: bash
             experimental: false
-            cache_enabled: true
-            cache_paths: |
-              /var/cache/apt/archives
 
-          - distro: debian-trixie
+          - name: debian-trixie
             image: debian:trixie
             install_script: scripts/install-debian.sh
             artifact_name: remidock-debian-trixie
+            install_shell: bash
             experimental: false
-            cache_enabled: true
-            cache_paths: |
-              /var/cache/apt/archives
 
-          - distro: opensuse-tumbleweed
+          - name: fedora
+            image: fedora:latest
+            install_script: scripts/install-fedora.sh
+            artifact_name: remidock-fedora
+            install_shell: bash
+            experimental: false
+
+          - name: opensuse-tumbleweed
             image: opensuse/tumbleweed:latest
             install_script: scripts/install-opensuse.sh
             artifact_name: remidock-opensuse-tumbleweed
+            install_shell: bash
             experimental: false
-            cache_enabled: true
-            cache_paths: |
-              /var/cache/zypp/packages
 
-          - distro: alpine-edge
+          - name: alpine-edge
             image: alpine:edge
             install_script: scripts/install-alpine.sh
             artifact_name: remidock-alpine-edge
+            install_shell: sh
             experimental: true
-            cache_enabled: true
-            cache_paths: |
-              /var/cache/apk
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Mark repository safe
-        shell: sh
-        run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE" || true
-
-      - name: Prepare package cache directory
-        if: matrix.cache_enabled
-        shell: sh
-        run: |
-          set -eu
-          case "${{ matrix.distro }}" in
-            arch)
-              mkdir -p /var/cache/pacman/pkg
-              ;;
-            ubuntu-24.04|debian-trixie)
-              mkdir -p /var/cache/apt/archives
-              ;;
-            opensuse-tumbleweed)
-              mkdir -p /var/cache/zypp/packages
-              ;;
-            alpine-edge)
-              mkdir -p /var/cache/apk
-              ;;
-            *)
-              echo "No package cache directory required for ${{ matrix.distro }}"
-              ;;
-          esac
-
-      - name: Restore package cache
-        if: matrix.cache_enabled
-        uses: actions/cache@v4
-        with:
-          path: ${{ matrix.cache_paths }}
-          key: remidock-${{ matrix.distro }}-packages-${{ hashFiles('CMakeLists.txt', 'scripts/install-*.sh', 'scripts/_install-common.sh') }}
-          restore-keys: |
-            remidock-${{ matrix.distro }}-packages-
 
       - name: Make scripts executable
         shell: sh
         run: |
           chmod +x scripts/*.sh
 
-      - name: Install dependencies on Alpine
-        if: matrix.distro == 'alpine-edge'
+      - name: Install dependencies
         shell: sh
         run: |
-          WITH_SUDO=0 SKIP_BUILD=1 "${{ matrix.install_script }}"
-
-      - name: Install dependencies
-        if: matrix.distro != 'alpine-edge'
-        shell: bash
-        run: |
-          WITH_SUDO=0 SKIP_BUILD=1 "${{ matrix.install_script }}"
+          if [ "${{ matrix.install_shell }}" = "sh" ]; then
+            WITH_SUDO=0 SKIP_BUILD=1 sh "${{ matrix.install_script }}"
+          else
+            WITH_SUDO=0 SKIP_BUILD=1 bash "${{ matrix.install_script }}"
+          fi
 
       - name: Build
         shell: bash
         run: |
-          DISTRO_NAME="${{ matrix.distro }}" scripts/build-linux.sh
+          set -euo pipefail
+          DISTRO_NAME="${{ matrix.name }}" scripts/build-linux.sh
 
       - name: Package artifact
         shell: bash
         run: |
           set -euo pipefail
 
-          package_root="${{ matrix.artifact_name }}"
+          rm -rf package artifacts
+          mkdir -p package artifacts
 
-          rm -rf dist artifacts
-          mkdir -p "dist/${package_root}" artifacts
+          package_name="${{ matrix.artifact_name }}"
+          package_dir="package/${package_name}"
+
+          mkdir -p "${package_dir}"
 
           if [ -x build/bin/RemiDock ]; then
-            cp build/bin/RemiDock "dist/${package_root}/"
+            cp build/bin/RemiDock "${package_dir}/RemiDock"
           elif [ -x build/RemiDock ]; then
-            cp build/RemiDock "dist/${package_root}/"
+            cp build/RemiDock "${package_dir}/RemiDock"
           else
             found="$(find build -type f -perm -111 -name 'RemiDock*' | head -n 1 || true)"
             if [ -z "${found}" ]; then
               echo "Could not find RemiDock executable"
-              find build -maxdepth 4 -type f | sort
+              find build -maxdepth 5 -type f | sort
               exit 1
             fi
-            cp "${found}" "dist/${package_root}/RemiDock"
+            cp "${found}" "${package_dir}/RemiDock"
           fi
 
-          cp -a README.md LICENSE CHANGELOG.md "dist/${package_root}/" 2>/dev/null || true
-          cp -a data images icon.png "dist/${package_root}/" 2>/dev/null || true
-          cp -a scripts "dist/${package_root}/" 2>/dev/null || true
+          cp -a README.md LICENSE CHANGELOG.md "${package_dir}/" 2>/dev/null || true
+          cp -a data images icon.png scripts "${package_dir}/" 2>/dev/null || true
 
-          tar -C dist -czf "artifacts/${package_root}.tar.gz" "${package_root}"
+          tar -C package -czf "artifacts/${package_name}.tar.gz" "${package_name}"
 
-      - name: Upload CI artifact
+      - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact_name }}
+          name: ${{ matrix.artifact_name }}-${{ github.sha }}
           path: artifacts/*.tar.gz
           if-no-files-found: error
           retention-days: 14
 
   release:
-    name: create-versioned-main-release
+    name: Create main release
     runs-on: ubuntu-24.04
     needs: build
-
-    # Only pushes to main publish GitHub Releases.
-    # Other branches and pull requests only create workflow artifacts.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -206,48 +151,35 @@ jobs:
           path: release-artifacts
           merge-multiple: true
 
-      - name: Create new versioned release for this main push
+      - name: Get version
+        id: version
         shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          shopt -s nullglob
 
-          files=(release-artifacts/*.tar.gz)
-          if (( ${#files[@]} == 0 )); then
-            echo "No release artifacts found." >&2
-            exit 1
-          fi
+          version="$(grep -E 'project\\(RemiDock VERSION ' CMakeLists.txt | sed -E 's/.*VERSION ([0-9]+\\.[0-9]+\\.[0-9]+).*/\\1/' | head -n 1)"
 
-          version="$(sed -nE 's/^project\(RemiDock VERSION ([^ ]+).*/\1/p' CMakeLists.txt | head -n 1)"
-          if [ -z "$version" ]; then
-            echo "Could not read RemiDock version from CMakeLists.txt" >&2
-            exit 1
+          if [ -z "${version}" ]; then
+            version="0.4.0"
           fi
 
           short_sha="${GITHUB_SHA::7}"
-          release_tag="v${version}-${short_sha}"
-          release_title="RemiDock v${version} (${short_sha})"
-          notes="Automatic RemiDock Linux builds from main.
 
-Version: v${version}
-Commit: ${GITHUB_SHA}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${short_sha}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${version}-${short_sha}" >> "$GITHUB_OUTPUT"
+          echo "release_name=RemiDock v${version} (${short_sha})" >> "$GITHUB_OUTPUT"
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.release_name }}
+          body: |
+            RemiDock v${{ steps.version.outputs.version }}
 
-          if git rev-parse "$release_tag" >/dev/null 2>&1; then
-            echo "Tag $release_tag already exists locally."
-          else
-            git tag "$release_tag" "$GITHUB_SHA"
-          fi
-          git push origin "$release_tag" || true
-
-          if gh release view "$release_tag" >/dev/null 2>&1; then
-            gh release edit "$release_tag"               --title "$release_title"               --notes "$notes"               --prerelease=false               --latest
-          else
-            gh release create "$release_tag"               --title "$release_title"               --notes "$notes"               --latest
-          fi
-
-          gh release upload "$release_tag" "${files[@]}" --clobber
+            Commit: ${{ github.sha }}
+            Branch: main
+          files: release-artifacts/*.tar.gz
+          prerelease: false
+          make_latest: true
